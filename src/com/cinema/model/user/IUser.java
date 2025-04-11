@@ -1,4 +1,4 @@
-package main.java.business.services.users;
+package com.cinema.model.user;
 
 /**
  * Интерфейс IUser предоставляет контракт для класса, представляющего пользователя в системе управления кинотеатром.

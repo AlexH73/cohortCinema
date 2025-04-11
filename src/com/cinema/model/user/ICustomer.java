@@ -1,4 +1,4 @@
-package main.java.business.services.users;
+package com.cinema.model.user;
 
 import java.util.List;
 

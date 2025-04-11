@@ -1,4 +1,5 @@
-package main.java.business.models;
+package com.cinema.model.ticket;
+
 
 /**
  * Интерфейс ITicket предоставляет контракт для класса, представляющего билет в системе управления кинотеатром.

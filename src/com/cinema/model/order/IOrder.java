@@ -1,4 +1,4 @@
-package main.java.business.models;
+package com.cinema.model.order;
 
 import java.util.List;
 

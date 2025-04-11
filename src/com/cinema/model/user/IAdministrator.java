@@ -1,4 +1,4 @@
-package main.java.business.services.users;
+package com.cinema.model.user;
 
 /**
  * Интерфейс IAdministrator предоставляет контракт для класса, представляющего администратора в системе управления кинотеатром.

@@ -1,4 +1,4 @@
-package main.java.business.models;
+package com.cinema.model.hall;
 
 /**
  * Интерфейс ICinemaHall предоставляет контракт для класса, представляющего кинозал в системе управления кинотеатром.

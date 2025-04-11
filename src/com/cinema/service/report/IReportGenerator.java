@@ -1,4 +1,4 @@
-package main.java.business.services.reports;
+package com.cinema.service.report;
 
 /**
  * Интерфейс IReportGenerator предоставляет контракт для класса, представляющего генератор отчетов в системе управления кинотеатром.

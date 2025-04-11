@@ -1,4 +1,4 @@
-package main.java.business.models;
+package com.cinema.model.session;
 
 import java.util.List;
 

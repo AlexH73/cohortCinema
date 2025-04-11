@@ -1,4 +1,4 @@
-package main.java.business.models;
+package com.cinema.model.film;
 
 /**
  * Интерфейс IFilm предоставляет контракт для класса, представляющего фильм в системе управления кинотеатром.

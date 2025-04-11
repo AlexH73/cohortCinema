@@ -1,4 +1,4 @@
-package main.java.business.models;
+package com.cinema.model.product;
 
 /**
  * Интерфейс IProduct предоставляет контракт для класса, представляющего продукт (напиток, еду и т. д.) в системе управления кинотеатром.
