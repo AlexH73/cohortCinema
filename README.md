@@ -70,7 +70,7 @@ java com.cinema.ui.ConsoleUI
 
 ## 🧑‍💻 Автор
 
-- **AlexH73** – [GitHub Profile](https://github.com/AlexH73)
+- **AlexH73** – [GitHub Profile](https://github.com/AlexH73), [Slack Profile](https://ait-tr.slack.com/team/U07V574LHN0)
 
 ---
 
