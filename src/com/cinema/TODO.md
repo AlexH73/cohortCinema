@@ -57,7 +57,21 @@
 
 ## 🗂️ Структура проекта
 
-> com.cinema ├── controller │ ├── product │ └── user ├── model │ ├── product │ └── user ├── service │ ├── product │ └── report ├── util │ └── exceptions └── ApplicationRunner.java
+```
+ com.cinema
+   ├── controller 
+   │ ├── product 
+   │ └── user 
+   ├── model 
+   │ ├── product 
+   │ └── user 
+   ├── service 
+   │ ├── product 
+   │ └── report 
+   ├── util 
+   │ └── exceptions 
+   └── ApplicationRunner.java
+```
 
 ## ✍️ Авторы
 - **AlexH73** – [GitHub](https://github.com/AlexH73/cohortCinema)
