@@ -4,6 +4,7 @@ import com.cinema.model.product.Product;
 import com.cinema.model.ticket.Ticket;
 import com.cinema.model.user.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -16,13 +17,15 @@ public class Order {
     private User user;
     private List<Ticket> tickets;
     private List<Product> products;
+    private final LocalDateTime createdAt;
     private boolean isPaid;
 
-    public Order(boolean isPaid, List<Product> products, List<Ticket> tickets, User user) {
+    public Order(User user) {
         this.id = UUID.randomUUID().toString();
         this.isPaid = false;
         this.products = new ArrayList<>();
         this.tickets = new ArrayList<>();
+        this.createdAt = LocalDateTime.now();
         this.user = user;
     }
 
@@ -40,6 +43,10 @@ public class Order {
 
     public List<Ticket> getTickets() {
         return tickets;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void addTicket(Ticket ticket) {
