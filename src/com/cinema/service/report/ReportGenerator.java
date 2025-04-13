@@ -1,3 +1,4 @@
+/*
 package com.cinema.service.report;
 
 public class ReportGenerator implements IReportGenerator {
@@ -17,3 +18,4 @@ public class ReportGenerator implements IReportGenerator {
         // Логика генерации отчёта по продуктам
     }
 }
+*/
