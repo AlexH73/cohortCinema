@@ -53,7 +53,7 @@ public class TicketAndProductReportGenerator implements IReportGenerator {
         double total = orders.stream()
                 .filter(Order::isPaid)
                 .filter(o -> {
-                    LocalDate date = o.getUser().getCreatadAt().toLokcalDate(); // Временно, потом заменим на дату заказа
+                    LocalDate date = o.getUser().getCreatedAt().toLokcalDate(); // Временно, потом заменим на дату заказа
                     return (date.isEqual(start) || date.isAfter(start)) &&
                             (date.isEqual(end) || date.isBefore(end));
                 })
