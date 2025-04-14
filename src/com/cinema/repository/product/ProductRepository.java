@@ -3,49 +3,49 @@ package com.cinema.repository.product;
 import com.cinema.model.product.Product;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Реализация интерфейса IProductRepository с хранением данных в памяти (список).
+ * Класс ProductRepository реализует интерфейс IProductRepository и предоставляет
+ * методы для управления продуктами в памяти.
  */
 public class ProductRepository implements IProductRepository {
 
-    private final List<Product> productList = new ArrayList<>();
+    // Хранилище продуктов (имитация базы данных)
+    private final Map<String, Product> products = new HashMap<>();
 
     @Override
     public void save(Product product) {
-        productList.add(product);
+        products.put(product.getId(), product);
     }
 
     @Override
-    public boolean deleteById(String id) {
-        return productList.removeIf(product -> product.getId().equals(id));
+    public boolean deleteById(String productId) {
+        return products.remove(productId) != null;
     }
 
     @Override
-    public Product findById(String id) {
-        for (Product product : productList) {
-            if (product.getId().equals(id)) {
-                return product;
-            }
-        }
-        return null;
+    public Product findById(String productId) {
+        return products.get(productId);
     }
 
     @Override
     public List<Product> findAll() {
-        return new ArrayList<>(productList); // Возвращаем копию, чтобы защитить исходный список
+        return new ArrayList<>(products.values());
+    }
+
+    @Override
+    public void clear() {
+        products.clear();
     }
 
     @Override
     public boolean update(Product updatedProduct) {
-        for (int i = 0; i < productList.size(); i++) {
-            Product current = productList.get(i);
-            if (current.getId().equals(updatedProduct.getId())) {
-                productList.set(i, updatedProduct);
-                return true;
-            }
+        if (products.containsKey(updatedProduct.getId())) {
+            products.put(updatedProduct.getId(), updatedProduct);
+            return true;
         }
         return false;
     }
@@ -53,7 +53,7 @@ public class ProductRepository implements IProductRepository {
     @Override
     public List<Product> findByName(String name) {
         List<Product> result = new ArrayList<>();
-        for (Product product : productList) {
+        for (Product product : products.values()) {
             if (product.getName().toLowerCase().contains(name.toLowerCase())) {
                 result.add(product);
             }
@@ -61,8 +61,4 @@ public class ProductRepository implements IProductRepository {
         return result;
     }
 
-    @Override
-    public void clear() {
-        productList.clear();
-    }
 }
