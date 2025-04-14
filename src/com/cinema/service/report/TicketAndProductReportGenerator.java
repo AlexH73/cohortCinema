@@ -1,6 +1,6 @@
 package com.cinema.service.report;
 
-import com.cinema.exception.ReportDateRangeException;
+import com.cinema.util.exceptions.ReportDateRangeException;
 import com.cinema.model.order.Order;
 
 import java.time.LocalDate;
