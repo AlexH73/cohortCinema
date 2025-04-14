@@ -1,6 +1,8 @@
 package com.cinema.model.ticket;
 
 
+import com.cinema.model.session.ISession;
+
 /**
  * Интерфейс ITicket предоставляет контракт для класса, представляющего билет в системе управления кинотеатром.
  */
