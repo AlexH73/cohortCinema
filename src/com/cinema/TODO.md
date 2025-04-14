@@ -9,12 +9,12 @@
 - [x] ProductService
 - [x] Product (модель)
 - [x] ProductType (enum, если нужно)
-- [ ] Ticket
+- [x] Ticket + ITicket
 - [ ] Seat
 - [ ] Movie
-- [x] Hall
-- [ ] Session
-- [ ] Order
+- [ ] Hall
+- [ ] Session + ISession
+- [x] Order
 - [ ] OrderItem
 - [ ] ProductOrder
 - [ ] Custom Exception (например, InvalidDateRangeException)
@@ -22,8 +22,6 @@
 ### ✅ 2. Service (Сервисный слой)
 - [x] IProductService
 - [x] ProductService
-- [x] IHallService
-- [x] HallService
 - [ ] ITicketService
 - [ ] TicketService
 - [ ] IMovieService
@@ -35,7 +33,6 @@
 
 ### ✅ 3. Controller (Управляющий слой)
 - [x] ProductController
-- [x] HallController
 - [ ] TicketController
 - [ ] MovieController
 - [ ] UserController
@@ -53,6 +50,7 @@
 - [ ] Тесты для ProductService
 
 ## ⏭️ Следующие шаги
+- [ ] Разобраться с ошибками в `ISession` и `Session`
 - [ ] Реализация модели `Movie`, `Hall`, `Seat`, `Session`
 - [ ] Реализация `TicketService` и `TicketController`
 - [ ] Создание `ApplicationRunner` (главное меню)
@@ -61,30 +59,29 @@
 ## 🗂️ Структура проекта
 
 ```
- com.cinema
-   ├─┬─ controller 
-   │ ├── product 
-   │ ├── hall
-   │ └── user 
-   ├─┬─ model 
-   │ ├── film 
-   │ ├── hall 
-   │ ├── order 
-   │ ├── product 
-   │ ├── session 
-   │ ├── ticket 
-   │ └── user 
-   ├─┬─ repository 
-   │ ├── hall
-   │ └── product
-   ├─┬─ service 
-   │ ├── hall 
-   │ ├── product 
-   │ ├── report 
-   │ └── user 
-   ├─┬─ util 
-   │ └── exceptions 
-   └── ApplicationRunner.java
+com.cinema
+├─┬─ controller
+│ ├── product
+│ └── user
+├─┬─ model
+│ ├── film
+│ ├── hall
+│ ├── order
+│ ├── product
+│ ├── session
+│ ├── ticket
+│ └── user
+├─┬─ repository
+│ ├── hall
+│ └── product
+├─┬─ service
+│ ├── hall
+│ ├── product
+│ ├── report
+│ └── user
+├─┬─ util
+│ └── exceptions
+└── ApplicationRunner.java
 ```
 
 ## ✍️ Авторы
