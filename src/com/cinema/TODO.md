@@ -12,7 +12,7 @@
 - [ ] Ticket
 - [ ] Seat
 - [ ] Movie
-- [ ] Hall
+- [x] Hall
 - [ ] Session
 - [ ] Order
 - [ ] OrderItem
@@ -22,6 +22,8 @@
 ### ✅ 2. Service (Сервисный слой)
 - [x] IProductService
 - [x] ProductService
+- [x] IHallService
+- [x] HallService
 - [ ] ITicketService
 - [ ] TicketService
 - [ ] IMovieService
@@ -33,6 +35,7 @@
 
 ### ✅ 3. Controller (Управляющий слой)
 - [x] ProductController
+- [x] HallController
 - [ ] TicketController
 - [ ] MovieController
 - [ ] UserController
@@ -61,6 +64,7 @@
  com.cinema
    ├─┬─ controller 
    │ ├── product 
+   │ ├── hall
    │ └── user 
    ├─┬─ model 
    │ ├── film 
