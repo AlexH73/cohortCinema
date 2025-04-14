@@ -59,10 +59,10 @@
 
 ```
  com.cinema
-   ├── controller 
+   ├─┬─ controller 
    │ ├── product 
    │ └── user 
-   ├── model 
+   ├─┬─ model 
    │ ├── film 
    │ ├── hall 
    │ ├── order 
@@ -70,15 +70,15 @@
    │ ├── session 
    │ ├── ticket 
    │ └── user 
-   ├── repository 
+   ├─┬─ repository 
    │ ├── hall
    │ └── product
-   ├── service 
+   ├─┬─ service 
    │ ├── hall 
    │ ├── product 
    │ ├── report 
    │ └── user 
-   ├── util 
+   ├─┬─ util 
    │ └── exceptions 
    └── ApplicationRunner.java
 ```
