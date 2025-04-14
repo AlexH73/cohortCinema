@@ -59,16 +59,26 @@
 
 ```
  com.cinema
-   ├── controller 
+   ├─┬─ controller 
    │ ├── product 
    │ └── user 
-   ├── model 
+   ├─┬─ model 
+   │ ├── film 
+   │ ├── hall 
+   │ ├── order 
    │ ├── product 
+   │ ├── session 
+   │ ├── ticket 
    │ └── user 
-   ├── service 
+   ├─┬─ repository 
+   │ ├── hall
+   │ └── product
+   ├─┬─ service 
+   │ ├── hall 
    │ ├── product 
-   │ └── report 
-   ├── util 
+   │ ├── report 
+   │ └── user 
+   ├─┬─ util 
    │ └── exceptions 
    └── ApplicationRunner.java
 ```

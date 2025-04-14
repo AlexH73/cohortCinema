@@ -1,4 +1,4 @@
-package com.cinema.exception;
+package com.cinema.util.exceptions;
 
 /**
  * Исключение, выбрасываемое при ошибке в датах отчёта.
