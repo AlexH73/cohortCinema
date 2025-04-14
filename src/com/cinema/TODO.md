@@ -63,11 +63,21 @@
    │ ├── product 
    │ └── user 
    ├── model 
+   │ ├── film 
+   │ ├── hall 
+   │ ├── order 
    │ ├── product 
+   │ ├── session 
+   │ ├── ticket 
    │ └── user 
+   ├── repository 
+   │ ├── hall
+   │ └── product
    ├── service 
+   │ ├── hall 
    │ ├── product 
-   │ └── report 
+   │ ├── report 
+   │ └── user 
    ├── util 
    │ └── exceptions 
    └── ApplicationRunner.java
