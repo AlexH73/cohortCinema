@@ -83,4 +83,9 @@ public interface ISession {
      * @param ticket Билет для удаления из сеанса.
      */
     void removeTicket(ITicket ticket);
+
+    double getTicketPrice();
+
+    void setTicketPrice(double price);
+
 }

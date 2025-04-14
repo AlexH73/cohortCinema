@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Класс Session представляет собой сеанс показа фильма в конкретном зале и времени.
  */
-public class Session {
+public class Session implements ISession {
     private final String id;
     private Film film;
     private Hall hall;

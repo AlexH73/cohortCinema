@@ -9,12 +9,12 @@
 - [x] ProductService
 - [x] Product (модель)
 - [x] ProductType (enum, если нужно)
-- [ ] Ticket
+- [x] Ticket + ITicket
 - [ ] Seat
 - [ ] Movie
 - [ ] Hall
-- [ ] Session
-- [ ] Order
+- [ ] Session + ISession
+- [x] Order
 - [ ] OrderItem
 - [ ] ProductOrder
 - [ ] Custom Exception (например, InvalidDateRangeException)
@@ -50,6 +50,7 @@
 - [ ] Тесты для ProductService
 
 ## ⏭️ Следующие шаги
+- [ ] Разобраться с ошибками в `ISession` и `Session`
 - [ ] Реализация модели `Movie`, `Hall`, `Seat`, `Session`
 - [ ] Реализация `TicketService` и `TicketController`
 - [ ] Создание `ApplicationRunner` (главное меню)
@@ -58,29 +59,29 @@
 ## 🗂️ Структура проекта
 
 ```
- com.cinema
-   ├─┬─ controller 
-   │ ├── product 
-   │ └── user 
-   ├─┬─ model 
-   │ ├── film 
-   │ ├── hall 
-   │ ├── order 
-   │ ├── product 
-   │ ├── session 
-   │ ├── ticket 
-   │ └── user 
-   ├─┬─ repository 
-   │ ├── hall
-   │ └── product
-   ├─┬─ service 
-   │ ├── hall 
-   │ ├── product 
-   │ ├── report 
-   │ └── user 
-   ├─┬─ util 
-   │ └── exceptions 
-   └── ApplicationRunner.java
+com.cinema
+├─┬─ controller
+│ ├── product
+│ └── user
+├─┬─ model
+│ ├── film
+│ ├── hall
+│ ├── order
+│ ├── product
+│ ├── session
+│ ├── ticket
+│ └── user
+├─┬─ repository
+│ ├── hall
+│ └── product
+├─┬─ service
+│ ├── hall
+│ ├── product
+│ ├── report
+│ └── user
+├─┬─ util
+│ └── exceptions
+└── ApplicationRunner.java
 ```
 
 ## ✍️ Авторы
