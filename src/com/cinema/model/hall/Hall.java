@@ -9,13 +9,13 @@ public class Hall {
     private final String id;
     private String name;
     private int rows;
-    private int statsPerRow ;
+    private int statsPerRow;
 
     public Hall(String name, int rows, int statsPerRow) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.rows = rows;
-        this.statsPerRow  = statsPerRow;
+        this.statsPerRow = statsPerRow;
     }
 
     public String getId() {
@@ -31,7 +31,7 @@ public class Hall {
     }
 
     public int getStatsPerRow() {
-        return statsPerRow ;
+        return statsPerRow;
     }
 
     public void setName(String name) {
@@ -43,14 +43,14 @@ public class Hall {
     }
 
     public void setStatsPerRow(int statsPerRow) {
-        this.statsPerRow  = statsPerRow;
+        this.statsPerRow = statsPerRow;
     }
 
     /**
      * Возвращает общее количество мест в зале.
      */
     public int getTotalSeats() {
-        return rows * statsPerRow ;
+        return rows * statsPerRow;
     }
 
     @Override
