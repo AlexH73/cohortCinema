@@ -38,14 +38,14 @@ public interface IFilm {
      *
      * @return Жанр фильма.
      */
-    String getGenre();
+    Genre getGenre();
 
     /**
      * Установить новый жанр фильма.
      *
      * @param genre Новый жанр фильма.
      */
-    void setGenre(String genre);
+    void setGenre(Genre genre);
 
     /**
      * Получить рейтинг фильма.
