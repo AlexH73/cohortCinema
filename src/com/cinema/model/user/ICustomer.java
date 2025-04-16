@@ -1,5 +1,10 @@
 package com.cinema.model.user;
 
+import com.cinema.model.order.IOrder;
+import com.cinema.model.product.IProduct;
+import com.cinema.model.session.ISession;
+import com.cinema.model.ticket.ITicket;
+
 import java.util.List;
 
 /**
@@ -17,6 +22,7 @@ public interface ICustomer extends IUser {
      * например, когда билеты на сеанс закончились или сеанс уже начался.
      * Студенты должны создать свой собственный класс исключения и обработать его соответствующим образом.
      */
+   // ITicket bookTicket(ISession session);
     ITicket bookTicket(ISession session);
 
     /**

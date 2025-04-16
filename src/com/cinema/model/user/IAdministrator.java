@@ -1,5 +1,10 @@
 package com.cinema.model.user;
 
+import com.cinema.model.film.IFilm;
+import com.cinema.model.hall.ICinemaHall;
+import com.cinema.model.product.IProduct;
+import com.cinema.model.session.ISession;
+
 /**
  * Интерфейс IAdministrator предоставляет контракт для класса, представляющего администратора в системе управления кинотеатром.
  */

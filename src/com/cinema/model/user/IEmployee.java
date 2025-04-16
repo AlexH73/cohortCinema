@@ -1,5 +1,7 @@
 package com.cinema.model.user;
 
+import com.cinema.model.session.ISession;
+
 import java.util.List;
 
 /**

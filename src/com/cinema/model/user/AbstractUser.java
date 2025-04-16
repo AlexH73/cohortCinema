@@ -4,9 +4,16 @@ package com.cinema.model.user;
  * Абстрактный класс AbstractUser предоставляет базовую реализацию и хранение данных для пользователя.
  */
 public abstract class AbstractUser implements IUser {
-
+    protected String id;
     protected String username;
     protected String password;
+    protected UserRole role;
+
+    public AbstractUser(String username, String password, UserRole role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
     /**
      * Получить имя пользователя.
