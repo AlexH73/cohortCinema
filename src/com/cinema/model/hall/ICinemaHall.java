@@ -37,13 +37,13 @@ public interface ICinemaHall {
      * Получить тип кинозала.
      *
      * @return Тип кинозала (например, 2D, 3D, IMAX).
-     */
     // enum getHallType();
+     */
 
     /**
      * Установить новый тип кинозала.
      *
      * @param hallType Новый тип кинозала.
      */
-    // void setHallType(enum hallType);
+    void setHallType(HallType hallType);
 }

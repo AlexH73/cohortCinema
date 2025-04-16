@@ -6,8 +6,8 @@ package com.cinema.model.hall;
  * В будущем при необходимости сюда можно добавить статус (занято/свободно) или привязку к залу.
  */
 public class Seat {
-    private int row;    // Номер ряда, в котором находится место
-    private int number; // Номер места в ряду
+    private final int row;    // Номер ряда, в котором находится место
+    private final int number; // Номер места в ряду
 
     /**
      * Конструктор места
@@ -15,6 +15,9 @@ public class Seat {
      * @param number номер места
      */
     public Seat(int row, int number) {
+        if (row <= 0 || number <= 0) {
+            throw new IllegalArgumentException("Некорректный ряд или место.");
+        }
         this.row = row;
         this.number = number;
     }
@@ -24,29 +27,26 @@ public class Seat {
         return row;
     }
 
-    // Сеттер для номера ряда (вдруг зал реорганизуют)
+/*    // Сеттер для номера ряда (вдруг зал реорганизуют)
     public void setRow(int row) {
         this.row = row;
-    }
+    }*/
 
     // Геттер для номера места
     public int getNumber() {
         return number;
     }
 
-    // Сеттер для номера места
+/*    // Сеттер для номера места
     public void setNumber(int number) {
         this.number = number;
-    }
+    }*/
 
     /**
      * Удобный вывод информации о месте.
      */
     @Override
     public String toString() {
-        return "Seat{" +
-                "row=" + row +
-                ", number=" + number +
-                '}';
+        return "Seat{row=" + row + ", number=" + number + '}';
     }
 }
