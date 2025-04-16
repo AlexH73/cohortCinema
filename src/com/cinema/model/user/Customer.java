@@ -6,6 +6,7 @@ import com.cinema.model.product.IProduct;
 import com.cinema.model.session.ISession;
 import com.cinema.model.ticket.ITicket;
 import com.cinema.model.ticket.Ticket;
+import com.cinema.util.exceptions.NotEnoughTicketsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,11 @@ public class Customer extends AbstractUser implements ICustomer {
 
     // Реализация метода bookTicket из ICustomer
     @Override
-    public ITicket bookTicket(ISession session) {
+    public ITicket bookTicket(ISession session) throws NotEnoughTicketsException {
+        if (session.getAvailableSeats() <= 0) {
+            throw new NotEnoughTicketsException("На данный момент нет свободных мест на сеанс.");
+        }
+
         // Пример: создание билета и добавление его в историю бронирований
         ITicket ticket = new Ticket(session, this, 1, 1, session.getTicketPrice());
         bookingHistory.add(ticket);

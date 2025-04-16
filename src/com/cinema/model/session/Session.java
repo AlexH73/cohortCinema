@@ -120,6 +120,12 @@ public class Session implements ISession {
     }
 
     @Override
+    public int getAvailableSeats() {
+        if (cinemaHall == null) return 0;
+        return cinemaHall.getCapacity() - tickets.size();
+    }
+
+    @Override
     public String toString() {
         return "Session{" +
                 "id='" + id + '\'' +

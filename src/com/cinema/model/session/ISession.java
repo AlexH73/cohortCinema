@@ -92,4 +92,5 @@ public interface ISession {
 
     void setTicketPrice(double price);
 
+    int getAvailableSeats();
 }
