@@ -1,5 +1,9 @@
 package com.cinema.model.session;
 
+import com.cinema.model.film.IFilm;
+import com.cinema.model.hall.ICinemaHall;
+import com.cinema.model.ticket.ITicket;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -40,28 +44,28 @@ public interface ISession {
      *
      * @return Время начала сеанса.
      */
-    String getStartTime();
+    LocalDateTime getStartTime();
 
     /**
      * Установить время начала сеанса.
      *
      * @param startTime Время начала сеанса.
      */
-    void setStartTime(String startTime);
+    void setStartTime(LocalDateTime startTime);
 
     /**
      * Получить время окончания сеанса.
      *
      * @return Время окончания сеанса.
      */
-    String getEndTime();
+    LocalDateTime getEndTime();
 
     /**
      * Установить время окончания сеанса.
      *
      * @param endTime Время окончания сеанса.
      */
-    void setEndTime(String endTime);
+    void setEndTime(LocalDateTime endTime);
 
     /**
      * Получить список всех билетов для этого сеанса.

@@ -1,9 +1,11 @@
 package com.cinema.model.session;
 
-import com.cinema.model.film.Film;
-import com.cinema.model.hall.Hall;
-
+import com.cinema.model.film.IFilm;
+import com.cinema.model.hall.ICinemaHall;
+import com.cinema.model.ticket.ITicket;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -11,52 +13,109 @@ import java.util.UUID;
  */
 public class Session implements ISession {
     private final String id;
-    private Film film;
-    private Hall hall;
+    private IFilm film;
+    private ICinemaHall cinemaHall;
     private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private double ticketPrice;
+    private List<ITicket> tickets = new ArrayList<>();
 
-    public Session(double ticketPrice, LocalDateTime startTime, Hall hall, Film film) {
+    public Session(IFilm film, ICinemaHall cinemaHall, LocalDateTime startTime, double ticketPrice) {
+        validate(film, cinemaHall, ticketPrice);
         this.id = UUID.randomUUID().toString();
-        this.ticketPrice = ticketPrice;
-        this.startTime = startTime;
-        this.hall = hall;
         this.film = film;
+        this.cinemaHall = cinemaHall;
+        this.startTime = startTime;
+        this.ticketPrice = ticketPrice;
+        calculateEndTime();
     }
 
-    public Film getFilm() {
+    private void validate(IFilm film, ICinemaHall cinemaHall, double ticketPrice) {
+        if (film == null || cinemaHall == null) {
+            throw new IllegalArgumentException("Фильм и зал не могут быть null.");
+        }
+        if (ticketPrice <= 0) {
+            throw new IllegalArgumentException("Цена билета должна быть > 0.");
+        }
+    }
+
+    private void calculateEndTime() {
+        if (film != null) {
+            this.endTime = startTime.plusMinutes(film.getDuration());
+        }
+    }
+
+    // Реализация методов интерфейса
+    @Override
+    public IFilm getFilm() {
         return film;
     }
 
-    public void setFilm(Film film) {
+    @Override
+    public void setFilm(IFilm film) {
         this.film = film;
+        calculateEndTime();
     }
 
-    public Hall getHall() {
-        return hall;
+    @Override
+    public ICinemaHall getCinemaHall() {
+        return cinemaHall;
     }
 
-    public void setHall(Hall hall) {
-        this.hall = hall;
+    @Override
+    public void setCinemaHall(ICinemaHall cinemaHall) {
+        this.cinemaHall = cinemaHall;
     }
 
-    public String getId() {
-        return id;
-    }
-
+    @Override
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
+    @Override
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+        calculateEndTime();
     }
 
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    @Override
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public List<ITicket> getTickets() {
+        return tickets;
+    }
+
+    @Override
+    public void addTicket(ITicket ticket) {
+        if (ticket == null) {
+            throw new IllegalArgumentException("Билет не может быть null.");
+        }
+        tickets.add(ticket);
+    }
+
+    @Override
+    public void removeTicket(ITicket ticket) {
+        tickets.remove(ticket);
+    }
+
+    @Override
     public double getTicketPrice() {
         return ticketPrice;
     }
 
+    @Override
     public void setTicketPrice(double ticketPrice) {
+        if (ticketPrice <= 0) {
+            throw new IllegalArgumentException("Цена билета должна быть > 0.");
+        }
         this.ticketPrice = ticketPrice;
     }
 
@@ -64,9 +123,10 @@ public class Session implements ISession {
     public String toString() {
         return "Session{" +
                 "id='" + id + '\'' +
-                ", film=" + film +
-                ", hall=" + hall +
+                ", film=" + film.getName() +
+                ", cinemaHall=" + cinemaHall.getHallNumber() +
                 ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 ", ticketPrice=" + ticketPrice +
                 '}';
     }
