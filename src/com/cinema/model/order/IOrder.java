@@ -1,5 +1,8 @@
 package com.cinema.model.order;
 
+import com.cinema.model.product.IProduct;
+import com.cinema.model.ticket.ITicket;
+
 import java.util.List;
 
 /**
@@ -33,14 +36,16 @@ public interface IOrder {
      *
      * @return Статус заказа.
      */
-    String getStatus();
+    OrderStatus getStatus();
+    List<IProduct> getProducts();
+    void addProduct(IProduct product);
 
     /**
      * Установить статус для этого заказа.
      *
      * @param status Новый статус заказа.
      */
-    void setStatus(String status);
+    void setStatus(OrderStatus status);
 
     /**
      * Получить общую стоимость этого заказа, рассчитывая сумму стоимости всех билетов в заказе.
