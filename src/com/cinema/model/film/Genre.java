@@ -8,8 +8,12 @@ public enum Genre {
     COMEDY,
     DRAMA,
     HORROR,
-    SCIFI,
+    SCI_FI,
     DOCUMENTARY,
     ANIMATION,
-    OTHER
+    OTHER,
+    ROMANCE,
+    THRILLER,
+    FAMILY,
+    FANTASY
 }
