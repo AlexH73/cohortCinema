@@ -1,5 +1,8 @@
 package com.cinema.model.product;
 
+import java.math.BigDecimal;
+import java.util.Currency;
+
 /**
  * Интерфейс IProduct предоставляет контракт для класса, представляющего продукт (напиток, еду и т. д.) в системе управления кинотеатром.
  */
@@ -24,14 +27,14 @@ public interface IProduct {
      *
      * @return Цена продукта.
      */
-    double getPrice();
+    BigDecimal getPrice();
 
     /**
      * Установить новую цену продукта.
      *
      * @param price Новая цена продукта.
      */
-    void setPrice(double price);
+    void setPrice(BigDecimal  price);
 
     /**
      * Получить описание продукта.
@@ -74,4 +77,16 @@ public interface IProduct {
      * @param quantity Количество продукта, которое следует добавить на склад.
      */
     void increaseStock(int quantity);
+
+    /**
+     *  Получить валюту продукта
+     * @return валюта продукта
+     */
+    Currency getCurrency();
+
+    /**
+     * Установить валюту продукта
+     * @param currency валюта продукта
+     */
+    void setCurrency(Currency currency);
 }

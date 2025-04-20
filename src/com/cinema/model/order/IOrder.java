@@ -4,6 +4,7 @@ import com.cinema.model.product.IProduct;
 import com.cinema.model.ticket.ITicket;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Интерфейс IOrder предоставляет контракт для класса, представляющего заказ в системе управления кинотеатром.
@@ -37,8 +38,29 @@ public interface IOrder {
      * @return Статус заказа.
      */
     OrderStatus getStatus();
-    List<IProduct> getProducts();
-    void addProduct(IProduct product);
+
+    /**
+     * Получить карту продуктов, входящих в этот заказ, с указанием количества каждого продукта.
+     *
+     * @return Карта продуктов и их количества.
+     */
+
+    Map<IProduct, Integer> getProducts();
+
+    /**
+     * Добавить продукт в этот заказ с указанием количества.
+     *
+     * @param product Продукт, который следует добавить в заказ.
+     * @param quantity Количество продукта.
+     */
+    void addProduct(IProduct product, int quantity);
+
+    /**
+     * Удалить продукт из этого заказа.
+     *
+     * @param product Продукт, который следует удалить из заказа.
+     */
+    void removeProduct(IProduct product);
 
     /**
      * Установить статус для этого заказа.

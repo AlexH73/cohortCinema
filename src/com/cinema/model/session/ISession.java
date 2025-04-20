@@ -65,7 +65,7 @@ public interface ISession {
      *
      * @param endTime Время окончания сеанса.
      */
-    void setEndTime(LocalDateTime endTime);
+    //void setEndTime(LocalDateTime endTime);
 
     /**
      * Получить список всех билетов для этого сеанса.

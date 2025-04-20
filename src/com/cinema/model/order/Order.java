@@ -2,12 +2,11 @@ package com.cinema.model.order;
 
 import com.cinema.model.product.IProduct;
 import com.cinema.model.ticket.ITicket;
+import com.cinema.model.ticket.TicketStatus;
 import com.cinema.model.user.Customer;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Класс Order представляет заказ, сделанный пользователем (билеты и/или продукты).
@@ -16,14 +15,14 @@ public class Order implements IOrder {
     private final String id;
     private Customer user;
     private List<ITicket> tickets;
-    private List<IProduct> products;
+    private Map<IProduct, Integer> products;
     private final LocalDateTime createdAt;
     private OrderStatus status; // "NEW", "PAID", "CANCELLED"
 
     public Order(Customer user) {
         this.id = UUID.randomUUID().toString();
         this.status = OrderStatus.NEW;
-        this.products = new ArrayList<>();
+        this.products = new HashMap<>();
         this.tickets = new ArrayList<>();
         this.createdAt = LocalDateTime.now();
         this.user = user;
@@ -61,8 +60,8 @@ public class Order implements IOrder {
         for (ITicket ticket : tickets) {
             total += ticket.getPrice();
         }
-        for (IProduct product : products) {
-            total += product.getPrice();
+        for (Map.Entry<IProduct, Integer> entry : products.entrySet()) {
+            total += entry.getKey().getPrice() * entry.getValue();
         }
         return total;
     }
@@ -74,7 +73,7 @@ public class Order implements IOrder {
         }
         this.status = OrderStatus.PAID;
         for (ITicket ticket : tickets) {
-            ticket.setStatus("PAID");
+            ticket.setStatus(TicketStatus.SOLD);
         }
     }
 
@@ -82,14 +81,21 @@ public class Order implements IOrder {
         return id;
     }
 
-
     // Дополнительные методы
-    public void addProduct(IProduct product) {
-        products.add(product);
+
+    @Override
+    public Map<IProduct, Integer> getProducts() {
+        return products;
     }
 
-    public List<IProduct> getProducts() {
-        return products;
+    @Override
+    public void addProduct(IProduct product, int quantity) {
+        products.put(product, quantity);
+    }
+
+    @Override
+    public void removeProduct(IProduct product) {
+        products.remove(product);
     }
 
     public Customer getUser() {
@@ -110,5 +116,18 @@ public class Order implements IOrder {
                 ", totalPrice=" + getTotalPrice() +
                 ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id.equals(order.id) && user.equals(order.user) && tickets.equals(order.tickets) && products.equals(order.products) && createdAt.equals(order.createdAt) && status == order.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, tickets, products, createdAt, status);
     }
 }

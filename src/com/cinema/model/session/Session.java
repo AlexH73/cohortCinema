@@ -4,9 +4,7 @@ import com.cinema.model.film.IFilm;
 import com.cinema.model.hall.ICinemaHall;
 import com.cinema.model.ticket.ITicket;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Класс Session представляет собой сеанс показа фильма в конкретном зале и времени.
@@ -16,9 +14,9 @@ public class Session implements ISession {
     private IFilm film;
     private ICinemaHall cinemaHall;
     private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private final LocalDateTime endTime;
     private double ticketPrice;
-    private List<ITicket> tickets = new ArrayList<>();
+    private final Set<ITicket> tickets = new HashSet<>();
 
     public Session(IFilm film, ICinemaHall cinemaHall, LocalDateTime startTime, double ticketPrice) {
         validate(film, cinemaHall, ticketPrice);
@@ -27,7 +25,7 @@ public class Session implements ISession {
         this.cinemaHall = cinemaHall;
         this.startTime = startTime;
         this.ticketPrice = ticketPrice;
-        calculateEndTime();
+        this.endTime = calculateEndTime();
     }
 
     private void validate(IFilm film, ICinemaHall cinemaHall, double ticketPrice) {
@@ -39,10 +37,11 @@ public class Session implements ISession {
         }
     }
 
-    private void calculateEndTime() {
+    private LocalDateTime calculateEndTime() {
         if (film != null) {
-            this.endTime = startTime.plusMinutes(film.getDuration());
+            return startTime.plusMinutes(film.getDuration());
         }
+        return startTime; // Или можно выбрасывать исключение, если film == null
     }
 
     // Реализация методов интерфейса
@@ -75,7 +74,6 @@ public class Session implements ISession {
     @Override
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
-        calculateEndTime();
     }
 
     @Override
@@ -83,14 +81,14 @@ public class Session implements ISession {
         return endTime;
     }
 
-    @Override
+/*    @Override
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
-    }
+    }*/
 
     @Override
     public List<ITicket> getTickets() {
-        return tickets;
+        return new ArrayList<>(tickets);
     }
 
     @Override
@@ -125,15 +123,28 @@ public class Session implements ISession {
         return cinemaHall.getCapacity() - tickets.size();
     }
 
+/*    @Override
+    public List<Seat> getAvailableSeatsList() {
+        //TODO implement me
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isSeatAvailable(Seat seat) {
+        //TODO implement me
+        throw new UnsupportedOperationException();
+    }*/
+
     @Override
     public String toString() {
         return "Session{" +
                 "id='" + id + '\'' +
-                ", film=" + film.getName() +
-                ", cinemaHall=" + cinemaHall.getHallNumber() +
+                ", film=" + (film != null ? film.getName() : "null") + // Проверка на null
+                ", cinemaHall=" + (cinemaHall != null ? cinemaHall.getHallNumber() : "null") + // Проверка на null
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", ticketPrice=" + ticketPrice +
+                ", tickets=" + tickets.size() +
                 '}';
     }
 }

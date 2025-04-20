@@ -1,5 +1,8 @@
 package com.cinema.model.product;
 
+import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -9,10 +12,11 @@ public class Product implements IProduct{
     private final String id;
     private String name;
     private String description;
-    private double price;
+    private BigDecimal price;
+    private Currency currency;
     private int stockQuantity;
 
-    public Product(String name, String description, double price, int stockQuantity) {
+    public Product(String name, String description, BigDecimal price, int stockQuantity, Currency currency) {
         validatePrice(price);
         validateStock(stockQuantity);
         this.id = UUID.randomUUID().toString();
@@ -20,11 +24,12 @@ public class Product implements IProduct{
         this.description = description;
         this.price = price;
         this.stockQuantity = stockQuantity;
+        this.currency = currency;
     }
 
     // Валидация цены
-    private void validatePrice(double price) {
-        if (price < 0) {
+    private void validatePrice(BigDecimal price) {
+        if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Цена не может быть отрицательной.");
         }
     }
@@ -48,12 +53,12 @@ public class Product implements IProduct{
     }
 
     @Override
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
     @Override
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         validatePrice(price);
         this.price = price;
     }
@@ -95,6 +100,16 @@ public class Product implements IProduct{
         stockQuantity += quantity;
     }
 
+    @Override
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    @Override
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
     // Геттер для ID
     public String getId() {
         return id;
@@ -107,6 +122,20 @@ public class Product implements IProduct{
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", stock=" + stockQuantity +
+                ", currency=" + currency +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return stockQuantity == product.stockQuantity && id.equals(product.id) && name.equals(product.name) && Objects.equals(description, product.description) && price.equals(product.price) && Objects.equals(currency, product.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, currency, stockQuantity);
     }
 }
