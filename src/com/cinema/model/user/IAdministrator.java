@@ -53,7 +53,8 @@ public interface IAdministrator extends IUser {
      * @return Информация о созданном продукте.
      * @throws ProductCreationException Если не удалось создать продукт.
      */
-    IProduct createProduct(String name, BigDecimal price, String description, int stockQuantity, Currency currency) throws ProductCreationException;
+    IProduct createProduct(String name, BigDecimal price, String description,
+                           int stockQuantity, Currency currency) throws ProductCreationException;
 
     /**
      * Удалить фильм из системы.

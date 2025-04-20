@@ -1,5 +1,6 @@
 package com.cinema.service.product;
 
+import com.cinema.model.product.IProduct;
 import com.cinema.model.product.Product;
 import java.util.List;
 
@@ -37,4 +38,6 @@ public interface IProductService {
      * @return Список всех доступных продуктов.
      */
     List<Product> getAllProducts();
+
+    void createProduct(IProduct product);
 }

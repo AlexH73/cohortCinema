@@ -69,4 +69,13 @@ public class Employee extends AbstractUser implements IEmployee {
     public void setRole(EmployeeRole role) {
         this.role = role;
     }
+
+    public String getPasswordHash() {
+        return super.getPasswordHash();
+    }
+
+    @Override
+    public void setPasswordHash(String passwordHash) {
+        super.setPasswordHash(passwordHash);
+    }
 }

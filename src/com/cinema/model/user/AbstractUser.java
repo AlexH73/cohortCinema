@@ -42,6 +42,10 @@ public abstract class AbstractUser implements IUser {
         return username;
     }
 
+    @Override
+    public void setUsername(String username) {
+        this.username = username; // Set the field
+    }
 
     @Override
     public String getPasswordSalt() {
@@ -51,6 +55,16 @@ public abstract class AbstractUser implements IUser {
     @Override
     public void setPasswordSalt(String passwordSalt) {
         this.passwordSalt = passwordSalt;
+    }
+
+    @Override
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    @Override
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     @Override

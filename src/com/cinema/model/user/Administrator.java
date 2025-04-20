@@ -2,6 +2,7 @@ package com.cinema.model.user;
 
 import com.cinema.model.film.IFilm;
 import com.cinema.model.film.Film;
+import com.cinema.model.film.Genre;
 import com.cinema.model.hall.ICinemaHall;
 import com.cinema.model.product.IProduct;
 import com.cinema.model.product.Product;
@@ -15,6 +16,7 @@ import com.cinema.util.exceptions.ProductCreationException;
 import com.cinema.util.exceptions.ProductDeletionException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.UUID;
@@ -23,7 +25,8 @@ public class Administrator extends AbstractUser implements IAdministrator {
 
     private final IReportGenerator reportGenerator;
 
-    public Administrator(String username, String password, String email, String firstName, String lastName, IReportGenerator reportGenerator) {
+    public Administrator(String username, String password, String email,
+                         String firstName, String lastName, IReportGenerator reportGenerator) {
         super(username, hashPassword(password), generateSalt(), UserRole.ADMIN, email, firstName, lastName);
         this.reportGenerator = reportGenerator;
     }
@@ -45,24 +48,35 @@ public class Administrator extends AbstractUser implements IAdministrator {
     @Override
     public IFilm createFilm(String name, int duration) throws FilmCreationException {
         try {
-            return new Film(name, duration);
+            // Значения по умолчанию для параметров Film
+            String description = "Описание по умолчанию";
+            Genre genre = Genre.ACTION;
+            double rating = 5.0;
+            String language = "Неизвестно";
+            String posterUrl = "default_poster.jpg";
+            LocalDate releaseDate = LocalDate.now();
+
+            // Создаем Film с полной информацией
+            return new Film(name, description, duration, genre, rating, language, posterUrl, releaseDate);
         } catch (Exception e) {
-            throw new FilmCreationException("Failed to create film: " + e.getMessage());
+            throw new FilmCreationException("Не удалось создать фильм: " + e.getMessage());
         }
     }
 
     @Override
-    public ISession createSession(IFilm film, ICinemaHall hall, LocalDateTime dateTime) throws SessionCreationException {
+    public ISession createSession(IFilm film, ICinemaHall hall,
+                                  LocalDateTime dateTime) throws SessionCreationException {
         // TODO: Implement session creation logic
         return null;
     }
 
     @Override
-    public IProduct createProduct(String name, BigDecimal price, String description, int stockQuantity, Currency currency) throws ProductCreationException {
+    public IProduct createProduct(String name, BigDecimal price, String description, int stockQuantity,
+                                  Currency currency) throws ProductCreationException {
         try {
-            return new Product(name, description, price.doubleValue(), stockQuantity);
+            return new Product(name, description, price, stockQuantity, currency);
         } catch (Exception e) {
-            throw new ProductCreationException("Failed to create product: " + e.getMessage());
+            throw new ProductCreationException("Не удалось создать продукт: " + e.getMessage());
         }
     }
 
@@ -84,5 +98,15 @@ public class Administrator extends AbstractUser implements IAdministrator {
     @Override
     public IReportGenerator getReportGenerator() {
         return reportGenerator;
+    }
+
+    @Override
+    public String getPasswordHash() {
+        return super.getPasswordHash();
+    }
+
+    @Override
+    public void setPasswordHash(String passwordHash) {
+        super.setPasswordHash(passwordHash);
     }
 }
