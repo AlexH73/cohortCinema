@@ -1,9 +1,12 @@
 package com.cinema.model.user;
 
+import com.cinema.model.hall.Seat;
 import com.cinema.model.order.IOrder;
 import com.cinema.model.product.IProduct;
 import com.cinema.model.session.ISession;
 import com.cinema.model.ticket.ITicket;
+import com.cinema.util.exceptions.InsufficientStockException;
+import com.cinema.util.exceptions.BookingException;
 
 import java.util.List;
 
@@ -16,27 +19,21 @@ public interface ICustomer extends IUser {
      * Забронировать билет на указанный сеанс.
      *
      * @param session Сеанс, на который следует забронировать билет.
+     * @param seat    Место для бронирования.
      * @return Забронированный билет.
-     *
-     * @throws YourCustomException Этот метод должен обрабатывать собственные исключения,
-     * например, когда билеты на сеанс закончились или сеанс уже начался.
-     * Студенты должны создать свой собственный класс исключения и обработать его соответствующим образом.
+     * @throws BookingException Если билеты на сеанс закончились или сеанс уже начался.
      */
-   // ITicket bookTicket(ISession session);
-    ITicket bookTicket(ISession session);
+    ITicket bookTicket(ISession session, Seat seat) throws BookingException;
 
     /**
      * Купить продукт.
      *
-     * @param product Продукт, который следует купить.
+     * @param product  Продукт, который следует купить.
      * @param quantity Количество продукта, который следует купить.
      * @return Заказ, содержащий информацию о покупке.
-     *
-     * @throws YourCustomException Этот метод должен обрабатывать собственные исключения,
-     * например, когда запрошенное количество продукта недоступно на складе.
-     * Студенты должны создать свой собственный класс исключения и обработать его соответствующим образом.
+     * @throws InsufficientStockException Если запрошенное количество продукта недоступно на складе.
      */
-    IOrder purchaseProduct(IProduct product, int quantity);
+    IOrder purchaseProduct(IProduct product, int quantity) throws InsufficientStockException;
 
     /**
      * Получить историю всех заказов клиента.

@@ -1,64 +1,97 @@
 package com.cinema.model.user;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Класс User представляет пользователя системы (клиент, сотрудник или администратор).
  */
-public class User {
+public class User implements IUser {
     // Уникальный идентификатор пользователя (генерируется автоматически)
     private final String id;
 
     // Имя пользователя
-    private String name;
+    private String username;
 
     // Email пользователя (будет использоваться для авторизации)
     private String email;
 
-    // Пароль пользователя (в будущем можно будет хэшировать)
-    private String password;
+    private String firstName;
+    private String lastName;
+
+    // Хеш пароля
+    private String passwordHash;
+
+    // Соль для хеширования пароля
+    private String passwordSalt;
 
     // Роль пользователя (CLIENT, STAFF, ADMIN)
     private UserRole role;
 
+    private LocalDateTime createdAt;
+    private boolean isActive;
+
     /**
      * Конструктор создаёт нового пользователя с уникальным ID.
      */
-    public User(UserRole role, String password, String name, String email) {
+    public User(UserRole role, String username, String passwordHash, String passwordSalt, String email, String firstName, String lastName) {
         this.id = UUID.randomUUID().toString(); // Генерация уникального ID
         this.role = role;
-        this.password = password;
-        this.name = name;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.passwordSalt = passwordSalt;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.createdAt = LocalDateTime.now();
+        this.isActive = true;
     }
 
     // Геттеры и сеттеры для всех полей
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    @Override
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    @Override
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 
     public UserRole getRole() {
@@ -69,14 +102,65 @@ public class User {
         this.role = role;
     }
 
-    // Удобный вывод информации о пользователе (без пароля)
+    @Override
+    public String getFirstName() {
+        return firstName;
+    }
+
+    @Override
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public boolean isActive() {
+        return isActive;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "email='" + email + '\'' +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", role=" + role +
+                ", createdAt=" + createdAt +
+                ", isActive=" + isActive +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return isActive == user.isActive && id.equals(user.id) && username.equals(user.username) && email.equals(user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && passwordHash.equals(user.passwordHash) && passwordSalt.equals(user.passwordSalt) && role == user.role && createdAt.equals(user.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, firstName, lastName, passwordHash, passwordSalt, role, createdAt, isActive);
     }
 }
