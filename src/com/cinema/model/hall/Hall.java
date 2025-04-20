@@ -1,5 +1,6 @@
 package com.cinema.model.hall;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -8,9 +9,11 @@ import java.util.UUID;
 public class Hall implements ICinemaHall {
     private final String id;
     private int hallNumber;
+    private String hallName; // Добавлено
+    private String description; // Добавлено
     private int rows;
     private int seatsPerRow;
-    private int capacity;
+    private final int capacity;
     private HallType hallType;
 
     public Hall(int hallNumber, int rows, int seatsPerRow, HallType hallType) {
@@ -19,14 +22,20 @@ public class Hall implements ICinemaHall {
         this.hallNumber = hallNumber;
         this.rows = rows;
         this.seatsPerRow = seatsPerRow;
-        this.capacity = rows * seatsPerRow;
+        this.capacity = calculateCapacity(rows, seatsPerRow);
         this.hallType = hallType;
+        this.hallName = hallName;
+        this.description = description;
     }
 
     private void validate(int hallNumber, int rows, int seatsPerRow) {
         if (hallNumber <= 0 || rows <= 0 || seatsPerRow <= 0) {
             throw new IllegalArgumentException("Некорректные параметры зала.");
         }
+    }
+
+    private int calculateCapacity(int rows, int seatsPerRow) {
+        return rows * seatsPerRow;
     }
 
     // Реализация методов ICinemaHall
@@ -48,13 +57,13 @@ public class Hall implements ICinemaHall {
         return capacity;
     }
 
-    @Override
+/*    @Override
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Вместимость должна быть > 0.");
         }
         this.capacity = capacity;
-    }
+    }*/
 
     @Override
     public void setHallType(HallType hallType) {
@@ -70,7 +79,6 @@ public class Hall implements ICinemaHall {
             throw new IllegalArgumentException("Ряды должны быть > 0.");
         }
         this.rows = rows;
-        this.capacity = rows * seatsPerRow;
     }
 
     public int getSeatsPerRow() {
@@ -82,7 +90,26 @@ public class Hall implements ICinemaHall {
             throw new IllegalArgumentException("Места в ряду должны быть > 0.");
         }
         this.seatsPerRow = seatsPerRow;
-        this.capacity = rows * seatsPerRow;
+    }
+
+    @Override
+    public String getHallName() {
+        return hallName;
+    }
+
+    @Override
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getId() {
@@ -105,4 +132,18 @@ public class Hall implements ICinemaHall {
                 ", hallType=" + hallType +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hall hall = (Hall) o;
+        return hallNumber == hall.hallNumber && rows == hall.rows && seatsPerRow == hall.seatsPerRow && capacity == hall.capacity && id.equals(hall.id) && Objects.equals(hallName, hall.hallName) && Objects.equals(description, hall.description) && hallType == hall.hallType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, hallNumber, hallName, description, rows, seatsPerRow, capacity, hallType);
+    }
+
 }

@@ -7,5 +7,7 @@ public enum HallType {
     STANDARD,
     IMAX,
     VIP,
-    OTHER
+    OTHER,
+    DOLBY_ATMOS,
+    PREMIUM
 }

@@ -1,5 +1,7 @@
 package com.cinema.model.hall;
 
+import java.util.Objects;
+
 /**
  * Класс Seat представляет конкретное место в зале.
  * Каждое место определяется рядом и номером в ряду.
@@ -48,5 +50,18 @@ public class Seat {
     @Override
     public String toString() {
         return "Seat{row=" + row + ", number=" + number + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Seat seat = (Seat) o;
+        return row == seat.row && number == seat.number;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, number);
     }
 }

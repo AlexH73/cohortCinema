@@ -31,7 +31,7 @@ public interface ICinemaHall {
      *
      * @param capacity Новая вместимость кинозала.
      */
-    void setCapacity(int capacity);
+   // void setCapacity(int capacity);
 
     /**
      * Получить тип кинозала.
@@ -46,4 +46,32 @@ public interface ICinemaHall {
      * @param hallType Новый тип кинозала.
      */
     void setHallType(HallType hallType);
+
+    /**
+     * Получить название кинозала.
+     *
+     * @return Название кинозала.
+     */
+    String getHallName();
+
+    /**
+     * Установить название кинозала.
+     *
+     * @param hallName Название кинозала.
+     */
+    void setHallName(String hallName);
+
+    /**
+     * Получить описание кинозала.
+     *
+     * @return Описание кинозала.
+     */
+    String getDescription();
+
+    /**
+     * Установить описание кинозала.
+     *
+     * @param description Описание кинозала.
+     */
+    void setDescription(String description);
 }
