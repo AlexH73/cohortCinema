@@ -37,7 +37,7 @@ public interface IProductService {
      *
      * @return Список всех доступных продуктов.
      */
-    List<Product> getAllProducts();
+    List<IProduct> getAllProducts();
 
     void createProduct(IProduct product);
 }

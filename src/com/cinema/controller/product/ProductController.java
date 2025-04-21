@@ -1,13 +1,16 @@
 package com.cinema.controller.product;
 
+import com.cinema.model.product.Product;
 import com.cinema.model.product.IProduct;
 import com.cinema.util.exceptions.ProductNotFoundException;
 import com.cinema.service.product.IProductService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Currency;
 
-public class ProductController {
+public class ProductController implements IProductController {
     private final IProductService productService;
     private final Scanner scanner;
     private final OutputHandler outputHandler;
@@ -79,11 +82,15 @@ public class ProductController {
             outputHandler.print("❗ Неверный формат количества.");
             return;
         }
+
+        BigDecimal priceBigDecimal = BigDecimal.valueOf(price);
+        Currency currency = Currency.getInstance("USD"); // Валюта по умолчанию
         IProduct product = new Product(
                 name,
                 description,
-                price,
-                stockQuantity
+                priceBigDecimal,
+                stockQuantity,
+                currency
         );
         productService.createProduct(product);
         outputHandler.print("✅ Продукт добавлен: " + product);

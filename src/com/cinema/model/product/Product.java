@@ -70,6 +70,9 @@ public class Product implements IProduct{
 
     @Override
     public void setDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            throw new IllegalArgumentException("Описание не может быть пустым.");
+        }
         this.description = description;
     }
 
