@@ -99,14 +99,4 @@ public class Administrator extends AbstractUser implements IAdministrator {
     public IReportGenerator getReportGenerator() {
         return reportGenerator;
     }
-
-    @Override
-    public String getPasswordHash() {
-        return super.getPasswordHash();
-    }
-
-    @Override
-    public void setPasswordHash(String passwordHash) {
-        super.setPasswordHash(passwordHash);
-    }
 }
