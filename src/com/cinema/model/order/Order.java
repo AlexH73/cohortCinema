@@ -5,6 +5,7 @@ import com.cinema.model.ticket.ITicket;
 import com.cinema.model.ticket.TicketStatus;
 import com.cinema.model.user.Customer;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -55,13 +56,15 @@ public class Order implements IOrder {
     }
 
     @Override
-    public double getTotalPrice() {
-        double total = 0;
+    public BigDecimal getTotalPrice() {
+        BigDecimal total = BigDecimal.ZERO;
         for (ITicket ticket : tickets) {
-            total += ticket.getPrice();
+            total = total.add(BigDecimal.valueOf(ticket.getPrice()));
         }
         for (Map.Entry<IProduct, Integer> entry : products.entrySet()) {
-            total += entry.getKey().getPrice() * entry.getValue();
+            BigDecimal productPrice = entry.getKey().getPrice();
+            Integer quantity = entry.getValue();
+            total = total.add(productPrice.multiply(BigDecimal.valueOf(quantity)));
         }
         return total;
     }

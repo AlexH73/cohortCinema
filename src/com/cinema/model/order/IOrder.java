@@ -3,6 +3,7 @@ package com.cinema.model.order;
 import com.cinema.model.product.IProduct;
 import com.cinema.model.ticket.ITicket;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -74,7 +75,7 @@ public interface IOrder {
      *
      * @return Общая стоимость заказа.
      */
-    double getTotalPrice();
+    BigDecimal getTotalPrice();
 
     /**
      * Оплатить заказ, изменяя его статус и обновляя статус связанных билетов.
