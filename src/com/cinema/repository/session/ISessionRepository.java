@@ -1,8 +1,10 @@
 package com.cinema.repository.session;
 
+import com.cinema.model.session.ISession;
 import com.cinema.model.session.Session;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Интерфейс ISessionRepository определяет контракт для операций
@@ -15,7 +17,7 @@ public interface ISessionRepository {
      *
      * @param session Сеанс для сохранения.
      */
-    void save(Session session);
+    void save(ISession session);
 
     /**
      * Удаляет сеанс по его уникальному идентификатору.
@@ -31,14 +33,14 @@ public interface ISessionRepository {
      * @param sessionId Уникальный ID сеанса.
      * @return Найденный сеанс или null, если не найден.
      */
-    Session findById(String sessionId);
+    Optional findById(String sessionId);
 
     /**
      * Возвращает список всех сеансов.
      *
      * @return Список всех доступных сеансов.
      */
-    List<Session> findAll();
+    List<ISession> findAll();
 
     /**
      * Возвращает список сеансов, в которых участвует указанный фильм.
@@ -46,7 +48,7 @@ public interface ISessionRepository {
      * @param filmId Уникальный ID фильма.
      * @return Список сеансов с этим фильмом.
      */
-    List<Session> findByFilmId(String filmId);
+    List<ISession> findByFilmId(String filmId);
 
     /**
      * Возвращает список сеансов, проходящих в указанном зале.
@@ -54,6 +56,6 @@ public interface ISessionRepository {
      * @param hallId Уникальный ID зала.
      * @return Список сеансов, проводимых в этом зале.
      */
-    List<Session> findByHallId(String hallId);
+    List<ISession> findByHallId(String hallId);
 }
 
