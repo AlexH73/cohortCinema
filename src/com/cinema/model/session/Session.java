@@ -14,7 +14,7 @@ public class Session implements ISession {
     private IFilm film;
     private ICinemaHall cinemaHall;
     private LocalDateTime startTime;
-    private final LocalDateTime endTime;
+    private LocalDateTime endTime;
     private double ticketPrice;
     private final Set<ITicket> tickets = new HashSet<>();
 
@@ -46,6 +46,11 @@ public class Session implements ISession {
 
     // Реализация методов интерфейса
     @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
     public IFilm getFilm() {
         return film;
     }
@@ -53,7 +58,7 @@ public class Session implements ISession {
     @Override
     public void setFilm(IFilm film) {
         this.film = film;
-        calculateEndTime();
+        this.endTime = calculateEndTime(); // Присваиваем новое значение endTime
     }
 
     @Override
@@ -80,11 +85,6 @@ public class Session implements ISession {
     public LocalDateTime getEndTime() {
         return endTime;
     }
-
-/*    @Override
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }*/
 
     @Override
     public List<ITicket> getTickets() {
@@ -122,18 +122,6 @@ public class Session implements ISession {
         if (cinemaHall == null) return 0;
         return cinemaHall.getCapacity() - tickets.size();
     }
-
-/*    @Override
-    public List<Seat> getAvailableSeatsList() {
-        //TODO implement me
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean isSeatAvailable(Seat seat) {
-        //TODO implement me
-        throw new UnsupportedOperationException();
-    }*/
 
     @Override
     public String toString() {

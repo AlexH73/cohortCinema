@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface ISession {
 
+    String getId();
+
     /**
      * Получить фильм, который будет показываться во время этого сеанса.
      *
@@ -61,13 +63,6 @@ public interface ISession {
     LocalDateTime getEndTime();
 
     /**
-     * Установить время окончания сеанса.
-     *
-     * @param endTime Время окончания сеанса.
-     */
-    //void setEndTime(LocalDateTime endTime);
-
-    /**
      * Получить список всех билетов для этого сеанса.
      *
      * @return Список билетов для сеанса.
@@ -88,9 +83,24 @@ public interface ISession {
      */
     void removeTicket(ITicket ticket);
 
+    /**
+     *  Возвращает цену билета на данный сеанс.
+     *
+     * @return Цена билета.
+     */
     double getTicketPrice();
 
+    /**
+     * Устанавливает цену билета на данный сеанс.
+     *
+     * @param price Новая цена билета.
+     */
     void setTicketPrice(double price);
 
+    /**
+     *  Возвращает количество доступных мест на данный сеанс.
+     *
+     * @return Количество доступных мест.
+     */
     int getAvailableSeats();
 }
