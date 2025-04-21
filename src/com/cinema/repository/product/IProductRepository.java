@@ -1,8 +1,8 @@
 package com.cinema.repository.product;
 
-import com.cinema.model.product.Product;
-
+import com.cinema.model.product.IProduct;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Интерфейс IProductRepository определяет контракт для доступа и управления данными продуктов в системе кинотеатра.
@@ -14,7 +14,7 @@ public interface IProductRepository {
      *
      * @param product Продукт для сохранения.
      */
-    void save(Product product);
+    void save(IProduct product);
 
     /**
      * Удаляет продукт по уникальному идентификатору.
@@ -28,16 +28,16 @@ public interface IProductRepository {
      * Находит продукт по его уникальному идентификатору.
      *
      * @param id Уникальный ID продукта.
-     * @return Объект Product, если найден; иначе null.
+     * @return Optional, содержащий объект Product, если найден; иначе Optional.empty().
      */
-    Product findById(String id);
+    Optional<IProduct> findById(String id);
 
     /**
      * Возвращает список всех продуктов в хранилище.
      *
      * @return Список всех доступных продуктов.
      */
-    List<Product> findAll();
+    List<IProduct> findAll();
 
     /**
      * Обновляет продукт по ID, если он существует.
@@ -45,7 +45,7 @@ public interface IProductRepository {
      * @param updatedProduct Объект продукта с обновлёнными данными.
      * @return true, если продукт был успешно обновлён; false, если продукт не найден.
      */
-    boolean update(Product updatedProduct);
+    boolean update(IProduct updatedProduct);
 
     /**
      * Ищет продукты по названию (поиск без учёта регистра, частичное совпадение).
@@ -53,7 +53,7 @@ public interface IProductRepository {
      * @param name Название или часть названия продукта.
      * @return Список продуктов, соответствующих критерию поиска.
      */
-    List<Product> findByName(String name);
+    List<IProduct> findByName(String name);
 
     /**
      * Очищает все продукты из репозитория (например, при сбросе базы).

@@ -89,4 +89,10 @@ public interface IProduct {
      * @param currency валюта продукта
      */
     void setCurrency(Currency currency);
+
+    /**
+     *  Получить id продукта
+     * @return id продукта
+     */
+    String getId();
 }
