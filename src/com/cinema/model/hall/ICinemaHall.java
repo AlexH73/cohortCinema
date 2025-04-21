@@ -74,4 +74,11 @@ public interface ICinemaHall {
      * @param description Описание кинозала.
      */
     void setDescription(String description);
+
+    /**
+     * Получить id кинозала.
+     *
+     * @return id кинозала.
+     */
+    Object getId();
 }

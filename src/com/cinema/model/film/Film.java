@@ -83,6 +83,11 @@ public class Film implements IFilm {
     }
 
     @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
     public double getRating() {
         return rating;
     }

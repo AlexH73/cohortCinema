@@ -118,4 +118,11 @@ public interface IFilm {
      * @param releaseDate Дата выпуска фильма.
      */
     void setReleaseDate(LocalDate releaseDate);
+
+    /**
+     * Получить id фильма.
+     *
+     * @return id фильма.
+     */
+    String getId();
 }
