@@ -1,5 +1,6 @@
 package com.cinema.service.product;
 
+import com.cinema.model.product.IProduct;
 import com.cinema.model.product.Product;
 import java.util.List;
 
@@ -13,15 +14,15 @@ public interface IProductService {
      *
      * @param product Продукт для добавления.
      */
-    void addProduct(Product product);
+    IProduct createProduct(IProduct product);
 
     /**
      * Удалить продукт по его уникальному идентификатору.
      *
-     * @param productId Уникальный ID продукта.
+     * @param id Уникальный ID продукта.
      * @return true, если продукт был успешно удалён, иначе false.
      */
-    boolean removeProductById(String productId);
+    void deleteProduct(String id);
 
     /**
      * Получить продукт по его уникальному идентификатору.
@@ -36,5 +37,7 @@ public interface IProductService {
      *
      * @return Список всех доступных продуктов.
      */
-    List<Product> getAllProducts();
+    List<IProduct> getAllProducts();
+
+    IProduct updateProduct(String id, IProduct product);
 }

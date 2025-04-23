@@ -1,83 +1,112 @@
 package com.cinema.model.order;
 
-import com.cinema.model.product.Product;
-import com.cinema.model.ticket.Ticket;
-import com.cinema.model.user.User;
+import com.cinema.model.product.IProduct;
+import com.cinema.model.ticket.ITicket;
+import com.cinema.model.ticket.TicketStatus;
+import com.cinema.model.user.Customer;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Класс Order представляет заказ, сделанный пользователем (билеты и/или продукты).
  */
-public class Order {
+public class Order implements IOrder {
     private final String id;
-    private User user;
-    private List<Ticket> tickets;
-    private List<Product> products;
+    private Customer user;
+    private List<ITicket> tickets;
+    private Map<IProduct, Integer> products;
     private final LocalDateTime createdAt;
-    private boolean isPaid;
+    private OrderStatus status; // "NEW", "PAID", "CANCELLED"
 
-    public Order(User user) {
+    public Order(Customer user) {
         this.id = UUID.randomUUID().toString();
-        this.isPaid = false;
-        this.products = new ArrayList<>();
+        this.status = OrderStatus.NEW;
+        this.products = new HashMap<>();
         this.tickets = new ArrayList<>();
         this.createdAt = LocalDateTime.now();
         this.user = user;
+    }
+
+    // Реализация методов интерфейса IOrder
+    @Override
+    public List<ITicket> getTickets() {
+        return tickets;
+    }
+
+    @Override
+    public void addTicket(ITicket ticket) {
+        tickets.add(ticket);
+    }
+
+    @Override
+    public void removeTicket(ITicket ticket) {
+        tickets.remove(ticket);
+    }
+
+    @Override
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    @Override
+    public BigDecimal getTotalPrice() {
+        BigDecimal total = BigDecimal.ZERO;
+        for (ITicket ticket : tickets) {
+            total = total.add(BigDecimal.valueOf(ticket.getPrice()));
+        }
+        for (Map.Entry<IProduct, Integer> entry : products.entrySet()) {
+            BigDecimal productPrice = entry.getKey().getPrice();
+            Integer quantity = entry.getValue();
+            total = total.add(productPrice.multiply(BigDecimal.valueOf(quantity)));
+        }
+        return total;
+    }
+
+    @Override
+    public void pay() {
+        if (status != OrderStatus.NEW) {
+            throw new IllegalStateException("Заказ уже обработан.");
+        }
+        this.status = OrderStatus.PAID;
+        for (ITicket ticket : tickets) {
+            ticket.setStatus(TicketStatus.SOLD);
+        }
     }
 
     public String getId() {
         return id;
     }
 
-    public boolean isPaid() {
-        return isPaid;
-    }
+    // Дополнительные методы
 
-    public List<Product> getProducts() {
+    @Override
+    public Map<IProduct, Integer> getProducts() {
         return products;
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
+    @Override
+    public void addProduct(IProduct product, int quantity) {
+        products.put(product, quantity);
+    }
+
+    @Override
+    public void removeProduct(IProduct product) {
+        products.remove(product);
+    }
+
+    public Customer getUser() {
+        return user;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public void addTicket(Ticket ticket) {
-        tickets.add(ticket);
-    }
-
-    public void addProduct(Product product) {
-        products.add(product);
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void pay() {
-        this.isPaid = true;
-        // Помечаем все билеты как оплаченные
-        for (Ticket ticket : tickets) {
-            ticket.setPaid(true);
-        }
-    }
-
-    public double getTotalPrice() {
-        double total = 0;
-        for (Ticket ticket : tickets) {
-            total += ticket.getSession().getTicketPrice();
-        }
-        for (Product product : products) {
-            total += product.getPrice();
-        }
-        return total;
     }
 
     @Override
@@ -88,7 +117,20 @@ public class Order {
                 ", tickets=" + tickets +
                 ", products=" + products +
                 ", totalPrice=" + getTotalPrice() +
-                ", isPaid=" + isPaid +
+                ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id.equals(order.id) && user.equals(order.user) && tickets.equals(order.tickets) && products.equals(order.products) && createdAt.equals(order.createdAt) && status == order.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, tickets, products, createdAt, status);
     }
 }

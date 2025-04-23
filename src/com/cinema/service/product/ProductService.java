@@ -1,38 +1,58 @@
 package com.cinema.service.product;
 
+import com.cinema.model.product.IProduct;
 import com.cinema.model.product.Product;
-import java.util.ArrayList;
+import com.cinema.repository.product.IProductRepository;
+
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Класс ProductService реализует бизнес-логику управления продуктами.
  */
 public class ProductService implements IProductService {
 
-    // Временное хранилище продуктов (можно заменить на БД в будущем)
-    private final List<Product> products = new ArrayList<>();
+    private final IProductRepository productRepository; // Репозиторий для доступа к данным продуктов
+
+    public ProductService(IProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
 
     @Override
-    public void addProduct(Product product) {
-        products.add(product);
+    public IProduct createProduct(IProduct product) {
+        return productRepository.save(product); // Сохраняем продукт в базу данных
     }
 
     @Override
-    public boolean removeProductById(String productId) {
-        return products.removeIf(product -> product.getId().equals(productId));
+    public Product getProductById(String id) {
+        return (Product) productRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Продукт с ID " + id + " не найден")); // Если продукт не найден, выбрасываем исключение
     }
 
     @Override
-    public Product getProductById(String productId) {
-        Optional<Product> found = products.stream()
-                .filter(p -> p.getId().equals(productId))
-                .findFirst();
-        return found.orElse(null); // можно бросать исключение, если нужно
+    public List<IProduct> getAllProducts() {
+        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList()); // Получаем все продукты из базы данных
+    }
+
+
+    @Override
+    public IProduct updateProduct(String id, IProduct product) {
+        IProduct existingProduct = getProductById(id); // Используем getProductById, чтобы обработать случай, когда продукт не найден
+
+        existingProduct.setName(product.getName()); // Обновляем имя
+        existingProduct.setDescription(product.getDescription()); // Обновляем описание
+        existingProduct.setPrice(product.getPrice()); // Обновляем цену
+        existingProduct.setStockQuantity(product.getStockQuantity()); // Обновляем количество на складе
+
+        return productRepository.save(existingProduct); // Сохраняем обновленный продукт в базу данных
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return new ArrayList<>(products);
+    public void deleteProduct(String id) {
+        productRepository.deleteById(id); // Удаляем продукт из базы данных
     }
 }

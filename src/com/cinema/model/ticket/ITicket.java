@@ -1,6 +1,7 @@
 package com.cinema.model.ticket;
 
 
+import com.cinema.model.hall.Seat;
 import com.cinema.model.session.ISession;
 
 /**
@@ -27,14 +28,14 @@ public interface ITicket {
      *
      * @return Номер места этого билета.
      */
-    int getSeatNumber();
+    Seat getSeat();
 
     /**
      * Установить номер места для этого билета.
      *
-     * @param seatNumber Номер места для этого билета.
+     * @param seat Номер места для этого билета.
      */
-    void setSeatNumber(int seatNumber);
+    void setSeat(Seat seat);
 
     /**
      * Получить стоимость этого билета.
@@ -55,12 +56,12 @@ public interface ITicket {
      *
      * @return Статус этого билета.
      */
-    String getStatus();
+    TicketStatus getStatus();
 
     /**
      * Установить статус для этого билета.
      *
      * @param status Статус для этого билета.
      */
-    void setStatus(String status);
+    void setStatus(TicketStatus status);
 }

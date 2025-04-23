@@ -1,6 +1,11 @@
 package com.cinema.model.order;
 
+import com.cinema.model.product.IProduct;
+import com.cinema.model.ticket.ITicket;
+
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Интерфейс IOrder предоставляет контракт для класса, представляющего заказ в системе управления кинотеатром.
@@ -33,21 +38,44 @@ public interface IOrder {
      *
      * @return Статус заказа.
      */
-    String getStatus();
+    OrderStatus getStatus();
+
+    /**
+     * Получить карту продуктов, входящих в этот заказ, с указанием количества каждого продукта.
+     *
+     * @return Карта продуктов и их количества.
+     */
+
+    Map<IProduct, Integer> getProducts();
+
+    /**
+     * Добавить продукт в этот заказ с указанием количества.
+     *
+     * @param product Продукт, который следует добавить в заказ.
+     * @param quantity Количество продукта.
+     */
+    void addProduct(IProduct product, int quantity);
+
+    /**
+     * Удалить продукт из этого заказа.
+     *
+     * @param product Продукт, который следует удалить из заказа.
+     */
+    void removeProduct(IProduct product);
 
     /**
      * Установить статус для этого заказа.
      *
      * @param status Новый статус заказа.
      */
-    void setStatus(String status);
+    void setStatus(OrderStatus status);
 
     /**
      * Получить общую стоимость этого заказа, рассчитывая сумму стоимости всех билетов в заказе.
      *
      * @return Общая стоимость заказа.
      */
-    double getTotalPrice();
+    BigDecimal getTotalPrice();
 
     /**
      * Оплатить заказ, изменяя его статус и обновляя статус связанных билетов.

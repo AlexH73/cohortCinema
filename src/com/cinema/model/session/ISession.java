@@ -1,11 +1,17 @@
 package com.cinema.model.session;
 
+import com.cinema.model.film.IFilm;
+import com.cinema.model.hall.ICinemaHall;
+import com.cinema.model.ticket.ITicket;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * Интерфейс ISession предоставляет контракт для класса, представляющего сеанс в системе управления кинотеатром.
  */
 public interface ISession {
+
+    String getId();
 
     /**
      * Получить фильм, который будет показываться во время этого сеанса.
@@ -40,28 +46,21 @@ public interface ISession {
      *
      * @return Время начала сеанса.
      */
-    String getStartTime();
+    LocalDateTime getStartTime();
 
     /**
      * Установить время начала сеанса.
      *
      * @param startTime Время начала сеанса.
      */
-    void setStartTime(String startTime);
+    void setStartTime(LocalDateTime startTime);
 
     /**
      * Получить время окончания сеанса.
      *
      * @return Время окончания сеанса.
      */
-    String getEndTime();
-
-    /**
-     * Установить время окончания сеанса.
-     *
-     * @param endTime Время окончания сеанса.
-     */
-    void setEndTime(String endTime);
+    LocalDateTime getEndTime();
 
     /**
      * Получить список всех билетов для этого сеанса.
@@ -84,8 +83,26 @@ public interface ISession {
      */
     void removeTicket(ITicket ticket);
 
+    /**
+     *  Возвращает цену билета на данный сеанс.
+     *
+     * @return Цена билета.
+     */
     double getTicketPrice();
 
+    /**
+     * Устанавливает цену билета на данный сеанс.
+     *
+     * @param price Новая цена билета.
+     */
     void setTicketPrice(double price);
 
+    /**
+     *  Возвращает количество доступных мест на данный сеанс.
+     *
+     * @return Количество доступных мест.
+     */
+    int getAvailableSeats();
+
+    void setAvailableSeats(int availableSeats);
 }

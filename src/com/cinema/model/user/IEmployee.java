@@ -1,6 +1,9 @@
 package com.cinema.model.user;
 
-import java.util.List;
+import com.cinema.model.session.ISession;
+import com.cinema.util.exceptions.MaxSessionsExceededException;
+
+import java.util.Set;
 
 /**
  * Интерфейс IEmployee предоставляет контракт для класса, представляющего сотрудника в системе управления кинотеатром.
@@ -26,18 +29,15 @@ public interface IEmployee extends IUser {
      *
      * @return Список сеансов.
      */
-    List<ISession> getManagedSessions();
+    Set<ISession> getManagedSessions();
 
     /**
      * Добавить сеанс, за который сотрудник будет отвечать.
      *
      * @param session Сеанс, за который сотрудник будет отвечать.
-     *
-     * @throws YourCustomException Этот метод должен обрабатывать собственные исключения,
-     * например, когда сотрудник уже отвечает за максимальное количество сеансов.
-     * Студенты должны создать свой собственный класс исключения и обработать его соответствующим образом.
+     * @throws MaxSessionsExceededException Если сотрудник уже отвечает за максимальное количество сеансов.
      */
-    void addManagedSession(ISession session);
+    void addManagedSession(ISession session) throws MaxSessionsExceededException;
 
     /**
      * Удалить сеанс, за который сотрудник отвечает.
@@ -45,4 +45,18 @@ public interface IEmployee extends IUser {
      * @param session Сеанс, за который сотрудник перестает отвечать.
      */
     void removeManagedSession(ISession session);
+
+    /**
+     * Получить максимальное количество сеансов, за которые может отвечать сотрудник.
+     *
+     * @return Максимальное количество сеансов.
+     */
+    int getMaxManagedSessions();
+
+    /**
+     * Установить максимальное количество сеансов, за которые может отвечать сотрудник.
+     *
+     * @param maxManagedSessions Максимальное количество сеансов.
+     */
+    void setMaxManagedSessions(int maxManagedSessions);
 }

@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class UserService implements IUserService {
-
     private final List<User> users = new ArrayList<>();
 
     @Override
@@ -17,7 +16,8 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("Пользователь с таким логином уже существует.");
         }
 
-        User user = new User(UUID.randomUUID().toString(), name, login, password);
+        String id = UUID.randomUUID().toString();
+        User user = new User(id, name, login, password);
         users.add(user);
         return user;
     }
@@ -25,7 +25,7 @@ public class UserService implements IUserService {
     @Override
     public User findByLogin(String login) {
         Optional<User> user = users.stream()
-                .filter(u -> u.getLogin().equalsIgnoreCase(login))
+                .filter(u -> u.getUsername().equalsIgnoreCase(login))
                 .findFirst();
         return user.orElse(null);
     }

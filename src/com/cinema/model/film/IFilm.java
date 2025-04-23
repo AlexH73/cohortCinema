@@ -1,5 +1,7 @@
 package com.cinema.model.film;
 
+import java.time.LocalDate;
+
 /**
  * Интерфейс IFilm предоставляет контракт для класса, представляющего фильм в системе управления кинотеатром.
  */
@@ -38,28 +40,28 @@ public interface IFilm {
      *
      * @return Жанр фильма.
      */
-    String getGenre();
+    Genre getGenre();
 
     /**
      * Установить новый жанр фильма.
      *
      * @param genre Новый жанр фильма.
      */
-    void setGenre(String genre);
+    void setGenre(Genre genre);
 
     /**
      * Получить рейтинг фильма.
      *
      * @return Рейтинг фильма.
      */
-    String getRating();
+    double getRating();
 
     /**
      * Установить новый рейтинг фильма.
      *
      * @param rating Новый рейтинг фильма.
      */
-    void setRating(String rating);
+    void setRating(double rating);
 
     /**
      * Получить описание фильма.
@@ -88,4 +90,39 @@ public interface IFilm {
      * @param language Новый язык фильма.
      */
     void setLanguage(String language);
+
+    /**
+     * Получить URL постера фильма.
+     *
+     * @return URL постера фильма.
+     */
+    String getPosterUrl();
+
+    /**
+     * Установить URL постера фильма.
+     *
+     * @param posterUrl URL постера фильма.
+     */
+    void setPosterUrl(String posterUrl);
+
+    /**
+     * Получить дату выпуска фильма.
+     *
+     * @return Дата выпуска фильма.
+     */
+    LocalDate getReleaseDate();
+
+    /**
+     * Установить дату выпуска фильма.
+     *
+     * @param releaseDate Дата выпуска фильма.
+     */
+    void setReleaseDate(LocalDate releaseDate);
+
+    /**
+     * Получить id фильма.
+     *
+     * @return id фильма.
+     */
+    String getId();
 }

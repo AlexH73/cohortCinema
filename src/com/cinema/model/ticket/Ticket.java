@@ -1,62 +1,39 @@
 package com.cinema.model.ticket;
 
+import com.cinema.model.hall.Seat;
 import com.cinema.model.session.ISession;
-import com.cinema.model.session.Session;
-import com.cinema.model.user.User;
+import com.cinema.model.user.Customer;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Класс Ticket представляет билет, купленный на определённый сеанс.
  */
 public class Ticket implements ITicket {
-
     private final String id;
     private ISession session;
-    private User user;
-    private int row;
-    private int seat;
-    private boolean isPaid;
+    private Customer user;
+    private Seat seat;
+    private double price;
+    private TicketStatus status;
 
-    public Ticket(boolean isPaid, int row, int seat, Session session, User user) {
+    public Ticket(ISession session, Customer user, Seat seat, double price) {
+        validate(session, seat, price);
         this.id = UUID.randomUUID().toString();
-        this.isPaid = isPaid;
-        this.row = row;
-        this.seat = seat;
         this.session = session;
         this.user = user;
+        this.price = price;
+        this.status = TicketStatus.AVAILABLE;
     }
 
-    public String getId() {
-        return id;
+    private void validate(ISession session, Seat seat, double price) {
+        if (session == null || seat == null || price <= 0) {
+            throw new IllegalArgumentException("Некорректные параметры билета.");
+        }
     }
 
-    public boolean isPaid() {
-        return isPaid;
-    }
-
-    public void setPaid(boolean paid) {
-        isPaid = paid;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    @Override
-    public int getSeatNumber() {
-        return seat;
-    }
-
-    @Override
-    public void setSeatNumber(int seatNumber) {
-        this.seat = seatNumber;
-    }
-
+    // Реализация методов интерфейса ITicket
     @Override
     public ISession getSession() {
         return session;
@@ -64,40 +41,53 @@ public class Ticket implements ITicket {
 
     @Override
     public void setSession(ISession session) {
-        if (session instanceof Session) {
-            this.session = (Session) session;
-        } else {
-            throw new IllegalArgumentException("Session must be instance of Session class");
+        if (session == null) {
+            throw new IllegalArgumentException("Сеанс не может быть null.");
         }
+        this.session = session;
+    }
+
+    @Override
+    public Seat getSeat() {
+        return seat;
+    }
+
+    @Override
+    public void setSeat(Seat seat) {
+        if (seat == null) {
+            throw new IllegalArgumentException("Место не может быть null.");
+        }
+        this.seat = seat;
     }
 
     @Override
     public double getPrice() {
-        return session != null ? session.getTicketPrice() : 0.0;
+        return price;
     }
 
     @Override
     public void setPrice(double price) {
-        if (session != null) {
-            session.setTicketPrice(price);
+        if (price <= 0) {
+            throw new IllegalArgumentException("Цена должна быть > 0.");
         }
+        this.price = price;
     }
 
     @Override
-    public String getStatus() {
-        return isPaid ? "Продано" : "Доступно";
+    public TicketStatus getStatus() {
+        return status;
     }
 
     @Override
-    public void setStatus(String status) {
-        this.isPaid = "Продано".equalsIgnoreCase(status);
+    public void setStatus(TicketStatus status) {
+        this.status = status;
     }
 
-    public User getUser() {
+    public Customer getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Customer user) {
         this.user = user;
     }
 
@@ -106,10 +96,22 @@ public class Ticket implements ITicket {
         return "Ticket{" +
                 "id='" + id + '\'' +
                 ", session=" + session +
-                ", user=" + user +
-                ", row=" + row +
                 ", seat=" + seat +
-                ", paid=" + isPaid +
+                ", price=" + price +
+                ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return Double.compare(ticket.price, price) == 0 && id.equals(ticket.id) && session.equals(ticket.session) && user.equals(ticket.user) && seat.equals(ticket.seat) && status == ticket.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, session, user, seat, price, status);
     }
 }
