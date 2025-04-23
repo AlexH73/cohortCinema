@@ -13,8 +13,9 @@ public interface IProductRepository {
      * Сохраняет новый продукт или обновляет существующий, если ID совпадает.
      *
      * @param product Продукт для сохранения.
+     * @return
      */
-    void save(IProduct product);
+    IProduct save(IProduct product);
 
     /**
      * Удаляет продукт по уникальному идентификатору.

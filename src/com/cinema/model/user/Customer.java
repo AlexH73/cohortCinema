@@ -19,7 +19,7 @@ public class Customer extends AbstractUser implements ICustomer {
     private final List<ITicket> bookingHistory = new ArrayList<>();
 
     public Customer(String username, String password) {
-        super(username, password, UserRole.CLIENT);
+        super(username, password, UserRole.CLIENT); // Изменено
     }
 
     // Реализация метода bookTicket из ICustomer

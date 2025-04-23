@@ -101,7 +101,7 @@ public class ProductController implements IProductController {
         String id = scanner.nextLine().trim();
 
         try {
-            productService.removeProductById(id);
+            productService.deleteProduct(id);
             outputHandler.print("✅ Продукт удалён.");
         } catch (ProductNotFoundException e) {
             outputHandler.print("❌ Ошибка: " + e.getMessage());

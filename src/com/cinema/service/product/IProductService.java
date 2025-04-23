@@ -14,15 +14,15 @@ public interface IProductService {
      *
      * @param product Продукт для добавления.
      */
-    void addProduct(Product product);
+    IProduct createProduct(IProduct product);
 
     /**
      * Удалить продукт по его уникальному идентификатору.
      *
-     * @param productId Уникальный ID продукта.
+     * @param id Уникальный ID продукта.
      * @return true, если продукт был успешно удалён, иначе false.
      */
-    boolean removeProductById(String productId);
+    void deleteProduct(String id);
 
     /**
      * Получить продукт по его уникальному идентификатору.
@@ -39,5 +39,5 @@ public interface IProductService {
      */
     List<IProduct> getAllProducts();
 
-    void createProduct(IProduct product);
+    IProduct updateProduct(String id, IProduct product);
 }

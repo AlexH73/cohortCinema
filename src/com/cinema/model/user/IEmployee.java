@@ -59,18 +59,4 @@ public interface IEmployee extends IUser {
      * @param maxManagedSessions Максимальное количество сеансов.
      */
     void setMaxManagedSessions(int maxManagedSessions);
-
-    /**
-     * Получить роль сотрудника.
-     *
-     * @return Роль сотрудника.
-     */
-    EmployeeRole getRole();
-
-    /**
-     * Установить роль сотрудника.
-     *
-     * @param role Роль сотрудника.
-     */
-    void setRole(EmployeeRole role);
 }

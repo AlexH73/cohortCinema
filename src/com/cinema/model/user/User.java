@@ -48,6 +48,13 @@ public class User implements IUser {
         this.isActive = true;
     }
 
+    public User(String id, String name, String login, String password) {
+        this.id = id;
+        this.firstName = name;
+        this.username = login;
+        this.passwordSalt = password;
+    }
+
     // Геттеры и сеттеры для всех полей
     @Override
     public String getEmail() {

@@ -19,6 +19,13 @@ public abstract class AbstractUser implements IUser {
     protected LocalDateTime createdAt;
     protected boolean isActive;
 
+    // Конструктор с 3 параметрами (более простой)
+    public AbstractUser(String username, String password, UserRole role) {
+        this(username, "", "", role, "", "", ""); // Вызываем конструктор с 7 параметрами с значениями по умолчанию
+        this.passwordHash = password;
+    }
+
+    // Конструктор с 7 параметрами (полная инициализация)
     public AbstractUser(String username, String passwordHash, String passwordSalt, UserRole role, String email, String firstName, String lastName) {
         this.id = UUID.randomUUID().toString();
         this.username = username;
@@ -112,16 +119,43 @@ public abstract class AbstractUser implements IUser {
         isActive = active;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractUser that = (AbstractUser) o;
-        return isActive == that.isActive && id.equals(that.id) && username.equals(that.username) && passwordHash.equals(that.passwordHash) && passwordSalt.equals(that.passwordSalt) && email.equals(that.email) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && role == that.role && createdAt.equals(that.createdAt);
+        return isActive == that.isActive &&
+                id.equals(that.id) &&
+                username.equals(that.username) &&
+                // passwordHash.equals(that.passwordHash) && // Исключено
+                // passwordSalt.equals(that.passwordSalt) && // Исключено
+                email.equals(that.email) &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName) &&
+                role == that.role &&
+                createdAt.equals(that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, passwordHash, passwordSalt, email, firstName, lastName, role, createdAt, isActive);
+        return Objects.hash(id, username,  email, firstName, lastName, role, createdAt, isActive); // Исключено
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractUser{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", role=" + role +
+                ", createdAt=" + createdAt +
+                ", isActive=" + isActive +
+                '}';
     }
 }

@@ -15,11 +15,9 @@ public class Employee extends AbstractUser implements IEmployee {
     private String position;
     private final Set<ISession> managedSessions = new HashSet<>();
     private int maxManagedSessions = 5; // Значение по умолчанию
-    private EmployeeRole role;
 
-    public Employee(String username, String passwordHash, String passwordSalt, String email, String firstName, String lastName, EmployeeRole role) {
-        super(username, passwordHash, passwordSalt, UserRole.STAFF, email, firstName, lastName);
-        this.role = role;
+    public Employee(String username, String passwordHash, String passwordSalt, UserRole role, String email, String firstName, String lastName) {
+        super(username, passwordHash, passwordSalt, role, email, firstName, lastName);
     }
 
     @Override
@@ -58,15 +56,5 @@ public class Employee extends AbstractUser implements IEmployee {
     @Override
     public void setMaxManagedSessions(int maxManagedSessions) {
         this.maxManagedSessions = maxManagedSessions;
-    }
-
-    @Override
-    public EmployeeRole getRole() {
-        return role;
-    }
-
-    @Override
-    public void setRole(EmployeeRole role) {
-        this.role = role;
     }
 }

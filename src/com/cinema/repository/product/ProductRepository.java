@@ -17,8 +17,9 @@ public class ProductRepository implements IProductRepository {
     private final Map<String, IProduct> products = new HashMap<>();
 
     @Override
-    public void save(IProduct product) {
+    public IProduct save(IProduct product) {
         products.put(product.getId(), product);
+        return product;
     }
 
     @Override

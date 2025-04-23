@@ -16,6 +16,7 @@ public class Session implements ISession {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private double ticketPrice;
+    private int availableSeats;
     private final Set<ITicket> tickets = new HashSet<>();
 
     public Session(IFilm film, ICinemaHall cinemaHall, LocalDateTime startTime, double ticketPrice) {
@@ -119,8 +120,12 @@ public class Session implements ISession {
 
     @Override
     public int getAvailableSeats() {
-        if (cinemaHall == null) return 0;
-        return cinemaHall.getCapacity() - tickets.size();
+        return availableSeats;
+    }
+
+    @Override
+    public void setAvailableSeats(int availableSeats) {
+        this.availableSeats = availableSeats;
     }
 
     @Override

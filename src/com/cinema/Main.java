@@ -5,7 +5,7 @@ import com.cinema.model.film.Genre;
 import com.cinema.model.hall.Hall;
 import com.cinema.model.hall.HallType;
 import com.cinema.model.user.Customer;
-import com.cinema.model.user.UserRole;
+import com.cinema.model.user.User;
 import com.cinema.repository.hall.HallRepository;
 import com.cinema.service.hall.HallServiceImpl;
 import com.cinema.service.hall.IHallService;
@@ -40,11 +40,12 @@ public class Main {
         System.out.println(film1);
         System.out.println(film2);
 
-/*        // ==== 3. Создание пользователя-клиента ====
+        // ==== 3. Создание пользователя-клиента ====
         Customer customer = new Customer("ivan_petrov", "12345");
         System.out.println("\n👤 Создан новый клиент:");
         System.out.println("Логин: " + customer.getUsername());
-        //System.out.println("Роль: " + customer.getRole());*/
+        System.out.println("Роль: " + customer.getRole());
+
 
         System.out.println("--------------------------------------");
         System.out.println("✅ Инициализация завершена!");

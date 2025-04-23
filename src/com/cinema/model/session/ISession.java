@@ -103,4 +103,6 @@ public interface ISession {
      * @return Количество доступных мест.
      */
     int getAvailableSeats();
+
+    void setAvailableSeats(int availableSeats);
 }
