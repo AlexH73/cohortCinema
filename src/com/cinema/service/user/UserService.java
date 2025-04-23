@@ -1,6 +1,8 @@
 package com.cinema.service.user;
 
 import com.cinema.model.user.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +18,12 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("Пользователь с таким логином уже существует.");
         }
 
-        String id = UUID.randomUUID().toString();
-        User user = new User(id, name, login, password);
-        users.add(user);
+        // Хешируем пароль с использованием BCrypt
+        String hashedPassword = passwordEncoder.encode(password);
+
+        User user = new User(UUID.randomUUID().toString(), name, login, hashedPassword); // Сохраняем хешированный пароль
+        userRepository.save(user); // Используем репозиторий для сохранения пользователя
         return user;
-    }
 
     @Override
     public User findByLogin(String login) {
