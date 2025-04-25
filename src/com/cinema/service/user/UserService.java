@@ -31,7 +31,7 @@ public class UserService implements IUserService {
         // Хешируем пароль с использованием BCrypt
         String hashedPassword = passwordEncoder.encode(password);
 
-        User user = new User(UUID.randomUUID().toString(), name, login, hashedPassword); // Сохраняем хешированный пароль
+        User user = new User(name, login, hashedPassword); // Сохраняем хешированный пароль
         userRepository.save(user); // Сохраняем пользователя в базу данных
         return user;
     }

@@ -3,11 +3,16 @@ package com.cinema.model.user;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name = "users")
 
 /**
  * Класс User представляет пользователя системы (клиент, сотрудник или администратор).
  */
-public class User extends com.cinema.data.User implements IUser {
+public class User implements IUser {
     // Уникальный идентификатор пользователя (генерируется автоматически)
     private final String id;
 
@@ -35,7 +40,8 @@ public class User extends com.cinema.data.User implements IUser {
     /**
      * Конструктор создаёт нового пользователя с уникальным ID.
      */
-    public User(UserRole role, String username, String passwordHash, String passwordSalt, String email, String firstName, String lastName) {
+    public User(UserRole role, String username, String passwordHash, String passwordSalt,
+                String email, String firstName, String lastName) {
         this.id = UUID.randomUUID().toString(); // Генерация уникального ID
         this.role = role;
         this.username = username;
@@ -48,11 +54,15 @@ public class User extends com.cinema.data.User implements IUser {
         this.isActive = true;
     }
 
-    public User(String id, String name, String login, String password) {
-        this.id = id;
+    public User(String name, String login, String passwordHash) {
+        this.id = UUID.randomUUID().toString(); // Генерация уникального ID
         this.firstName = name;
         this.username = login;
-        this.passwordSalt = password;
+        this.passwordHash = passwordHash;
+    }
+
+    public User() {
+        this.id = UUID.randomUUID().toString(); // Генерация уникального ID
     }
 
     // Геттеры и сеттеры для всех полей
