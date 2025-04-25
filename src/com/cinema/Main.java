@@ -1,11 +1,12 @@
 package com.cinema;
 
+import com.cinema.data.User;
 import com.cinema.model.film.Film;
 import com.cinema.model.film.Genre;
 import com.cinema.model.hall.Hall;
 import com.cinema.model.hall.HallType;
 import com.cinema.model.user.Customer;
-import com.cinema.model.user.User;
+import com.cinema.data.User;
 import com.cinema.repository.hall.HallRepository;
 import com.cinema.service.hall.HallServiceImpl;
 import com.cinema.service.hall.IHallService;
@@ -45,6 +46,10 @@ public class Main {
         System.out.println("\n👤 Создан новый клиент:");
         System.out.println("Логин: " + customer.getUsername());
         System.out.println("Роль: " + customer.getRole());
+
+        User newUser = new User("pervyj", "PervyjUser", "Login", "asdfg742");
+
+        System.out.println(newUser.getId() + newUser.getName() + newUser.getLogin());
 
 
         System.out.println("--------------------------------------");

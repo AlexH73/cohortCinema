@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * Класс User представляет пользователя системы (клиент, сотрудник или администратор).
  */
-public class User implements IUser {
+public class User extends com.cinema.data.User implements IUser {
     // Уникальный идентификатор пользователя (генерируется автоматически)
     private final String id;
 
