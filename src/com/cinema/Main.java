@@ -1,11 +1,12 @@
 package com.cinema;
 
+import com.cinema.model.user.User;
 import com.cinema.model.film.Film;
 import com.cinema.model.film.Genre;
 import com.cinema.model.hall.Hall;
 import com.cinema.model.hall.HallType;
 import com.cinema.model.user.Customer;
-import com.cinema.model.user.User;
+import com.cinema.model.user.UserRole;
 import com.cinema.repository.hall.HallRepository;
 import com.cinema.service.hall.HallServiceImpl;
 import com.cinema.service.hall.IHallService;
@@ -45,6 +46,18 @@ public class Main {
         System.out.println("\n👤 Создан новый клиент:");
         System.out.println("Логин: " + customer.getUsername());
         System.out.println("Роль: " + customer.getRole());
+
+        User newUser = new User(UserRole.STAFF,"Login", "asdfg742", "asdfg742", "abc@mail.tut", "Иван", "Сидоров");
+
+        System.out.println("\n👤 Создан новый "+ newUser.getRole() + ":");
+        System.out.println("Логин: " + newUser.getUsername());
+        System.out.println("Роль: " + newUser.getRole());
+        System.out.println("Email: " + newUser.getEmail());
+        System.out.println("Имя: " + newUser.getFirstName());
+        System.out.println("Фамилия: " + newUser.getLastName());
+        System.out.println("Дата регистрации: " + newUser.getCreatedAt());
+        System.out.println("Id: " + newUser.getId());
+        System.out.println(newUser);
 
 
         System.out.println("--------------------------------------");
