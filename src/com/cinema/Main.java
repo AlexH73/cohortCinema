@@ -49,7 +49,7 @@ public class Main {
 
         User newUser = new User(UserRole.STAFF,"Login", "asdfg742", "asdfg742", "abc@mail.tut", "Иван", "Сидоров");
 
-        System.out.println("\n👤 Создан новый "+ newUser.getRole() + ":");
+        System.out.println("\n👤 Создан новый " + newUser.getRole() + ":");
         System.out.println("Логин: " + newUser.getUsername());
         System.out.println("Роль: " + newUser.getRole());
         System.out.println("Email: " + newUser.getEmail());
@@ -57,6 +57,7 @@ public class Main {
         System.out.println("Фамилия: " + newUser.getLastName());
         System.out.println("Дата регистрации: " + newUser.getCreatedAt());
         System.out.println("Id: " + newUser.getId());
+        System.out.println("hashCode: " + newUser.hashCode());
         System.out.println(newUser);
 
 
