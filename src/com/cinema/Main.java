@@ -63,7 +63,6 @@ public class Main {
         System.out.println("hashCode: " + newUser.hashCode());
         System.out.println(newUser);
 
-
         System.out.println("--------------------------------------");
         System.out.println("✅ Инициализация завершена!");
     }
