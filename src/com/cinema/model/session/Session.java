@@ -40,7 +40,7 @@ public class Session implements ISession {
 
     private LocalDateTime calculateEndTime() {
         if (film != null) {
-            return startTime.plusMinutes(film.getDuration());
+            return startTime.plusMinutes(film.getDurationMinutes());
         }
         return startTime; // Или можно выбрасывать исключение, если film == null
     }
@@ -132,7 +132,7 @@ public class Session implements ISession {
     public String toString() {
         return "Session{" +
                 "id='" + id + '\'' +
-                ", film=" + (film != null ? film.getName() : "null") + // Проверка на null
+                ", film=" + (film != null ? film.getTitle() : "null") + // Проверка на null
                 ", cinemaHall=" + (cinemaHall != null ? cinemaHall.getHallNumber() : "null") + // Проверка на null
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +

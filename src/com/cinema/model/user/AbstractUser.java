@@ -39,6 +39,10 @@ public abstract class AbstractUser implements IUser {
         this.isActive = true;
     }
 
+    public AbstractUser() {
+
+    }
+
     @Override
     public String getId() {
         return id;

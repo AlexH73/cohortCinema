@@ -12,60 +12,59 @@ import org.hibernate.annotations.GenericGenerator;
 /**
  * Класс User представляет пользователя системы (клиент, сотрудник или администратор).
  */
-public class User implements IUser {
+public class User extends AbstractUser implements IUser {
     // Уникальный идентификатор пользователя (генерируется автоматически)
-    private final String id;
+    //private final String id;
 
     // Имя пользователя
-    private String username;
+    //private String username;
 
     // Email пользователя (будет использоваться для авторизации)
-    private String email;
+    //private String email;
 
-    private String firstName;
-    private String lastName;
+    //private String firstName;
+    //private String lastName;
 
     // Хеш пароля
-    private String passwordHash;
+    //private String passwordHash;
 
     // Соль для хеширования пароля
-    private String passwordSalt;
+    //private String passwordSalt;
 
     // Роль пользователя (CLIENT, STAFF, ADMIN)
-    private UserRole role;
+    //private UserRole role;
 
-    private LocalDateTime createdAt;
-    private boolean isActive;
+    //private LocalDateTime createdAt;
+    //private boolean isActive;
 
     /**
      * Конструктор создаёт нового пользователя с уникальным ID.
      */
-    public User(UserRole role, String username, String passwordHash, String passwordSalt,
-                String email, String firstName, String lastName) {
-        this.id = UUID.randomUUID().toString(); // Генерация уникального ID
-        this.role = role;
-        this.username = username;
-        this.passwordHash = passwordHash;
-        this.passwordSalt = passwordSalt;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.createdAt = LocalDateTime.now();
-        this.isActive = true;
+    // Конструктор с 3 параметрами (более простой)
+    public User(String username, String password, UserRole role) {
+        super(username, "", "", role, "", "", ""); // Вызываем конструктор с 7 параметрами с значениями по умолчанию
+        super.passwordHash = password;
     }
 
-    public User(String name, String login, String passwordHash) {
-        this.id = UUID.randomUUID().toString(); // Генерация уникального ID
-        this.firstName = name;
-        this.username = login;
-        this.passwordHash = passwordHash;
+    // Конструктор с 7 параметрами (полная инициализация)
+    public User(String username, String passwordHash, String passwordSalt, UserRole role, String email, String firstName, String lastName) {
+        
+        super.id = UUID.randomUUID().toString();
+        super.username = username;
+        super.passwordHash = passwordHash;
+        super.passwordSalt = passwordSalt;
+        super.role = role;
+        super.email = email;
+        super.firstName = firstName;
+        super.lastName = lastName;
+        super.createdAt = LocalDateTime.now();
+        super.isActive = true;
     }
 
-    public User() {
-        this.id = UUID.randomUUID().toString(); // Генерация уникального ID
+    public User(String name, String login, String hashedPassword) {
     }
 
-    // Геттеры и сеттеры для всех полей
+   /* // Геттеры и сеттеры для всех полей
     @Override
     public String getEmail() {
         return email;
@@ -133,8 +132,8 @@ public class User implements IUser {
     public String getLastName() {
         return lastName;
     }
-
-    @Override
+*/
+/*    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -179,5 +178,5 @@ public class User implements IUser {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, email, firstName, lastName, passwordHash, passwordSalt, role, createdAt, isActive);
-    }
+    }*/
 }

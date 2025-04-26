@@ -1,64 +1,70 @@
 package com.cinema.model.film;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Класс Film представляет фильм, который можно смотреть в кинотеатре.
  */
+@Entity
+@Table(name = "films")
 public class Film implements IFilm {
-    private final String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // ✅ Объектный тип Long, чтобы можно было хранить null
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(length = 1000)
     private String description;
+
+    @Column(nullable = false)
     private int durationMinutes;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Genre genre;
+
+    @Column(nullable = false)
     private double rating;
+
+    @Column(nullable = false)
     private String language;
+
     private String posterUrl;
+
     private LocalDate releaseDate;
+
+    // 🧹 Hibernate требует пустой конструктор (обязательно public или protected)
+    protected Film() {}
 
     public Film(String title, String description, int durationMinutes, Genre genre,
                 double rating, String language, String posterUrl, LocalDate releaseDate) {
-        validate(durationMinutes);
-        validateRating(rating);
-        validateLanguage(language);
-
-        this.id = UUID.randomUUID().toString();
-        this.title = title;
-        this.description = description;
-        this.durationMinutes = durationMinutes;
-        this.genre = genre;
-        this.rating = rating;
-        this.language = language;
-        this.posterUrl = posterUrl;
-        this.releaseDate = releaseDate;
+        setTitle(title);
+        setDescription(description);
+        setDurationMinutes(durationMinutes);
+        setGenre(genre);
+        setRating(rating);
+        setLanguage(language);
+        setPosterUrl(posterUrl);
+        setReleaseDate(releaseDate);
     }
 
-    private void validate(int duration) {
-        if (duration <= 0) {
-            throw new IllegalArgumentException("Длительность должна быть > 0.");
-        }
+    public Long getId() {
+        return id;
     }
 
-    private void validateRating(double rating) {
-        if (rating < 0 || rating > 10) {
-            throw new IllegalArgumentException("Рейтинг должен быть в диапазоне от 0 до 10.");
-        }
-    }
-
-
-    private void validateLanguage(String language) {
-        if (language == null || language.isBlank()) {
-            throw new IllegalArgumentException("Язык не может быть пустым.");
-        }
-    }
-
-    public String getName() {
+    public String getTitle() {
         return title;
     }
 
-    public void setName(String title) {
+    public void setTitle(String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Название не может быть пустым.");
+        }
         this.title = title;
     }
 
@@ -66,12 +72,19 @@ public class Film implements IFilm {
         return description;
     }
 
-    public int getDuration() {
+    public void setDescription(String description) {
+        this.description = description; // Можно быть пустым
+    }
+
+    public int getDurationMinutes() {
         return durationMinutes;
     }
 
-    public void setDuration(int duration) {
-        this.durationMinutes = duration;
+    public void setDurationMinutes(int durationMinutes) {
+        if (durationMinutes <= 0) {
+            throw new IllegalArgumentException("Длительность фильма должна быть положительной.");
+        }
+        this.durationMinutes = durationMinutes;
     }
 
     public Genre getGenre() {
@@ -79,79 +92,70 @@ public class Film implements IFilm {
     }
 
     public void setGenre(Genre genre) {
+        if (genre == null) {
+            throw new IllegalArgumentException("Жанр не может быть null.");
+        }
         this.genre = genre;
     }
 
-    @Override
     public double getRating() {
         return rating;
     }
 
-    @Override
     public void setRating(double rating) {
-        validateRating(rating);
+        if (rating < 0 || rating > 10) {
+            throw new IllegalArgumentException("Рейтинг должен быть от 0 до 10.");
+        }
         this.rating = rating;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
     public String getLanguage() {
         return language;
     }
 
-    @Override
     public void setLanguage(String language) {
-        validateLanguage(language);
+        if (language == null || language.isBlank()) {
+            throw new IllegalArgumentException("Язык не может быть пустым.");
+        }
         this.language = language;
     }
 
-    @Override
     public String getPosterUrl() {
         return posterUrl;
     }
 
-    @Override
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
     }
 
-    @Override
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    @Override
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    public String getId() {
-        return id;
     }
 
     @Override
     public String toString() {
         return "Film{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", title='" + title + '\'' +
                 ", genre=" + genre +
-                ", durationMinutes=" + durationMinutes + " min" +
+                ", durationMinutes=" + durationMinutes +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Film)) return false;
         Film film = (Film) o;
-        return durationMinutes == film.durationMinutes && Double.compare(film.rating, rating) == 0 && id.equals(film.id) && title.equals(film.title) && Objects.equals(description, film.description) && genre == film.genre && Objects.equals(language, film.language) && Objects.equals(posterUrl, film.posterUrl) && Objects.equals(releaseDate, film.releaseDate);
+        return Objects.equals(id, film.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, durationMinutes, genre, rating, language, posterUrl, releaseDate);
+        return Objects.hash(id);
     }
 }
