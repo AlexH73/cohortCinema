@@ -59,7 +59,6 @@ public class Main {
         System.out.println("Id: " + newUser.getId());
         System.out.println(newUser);
 
-
         System.out.println("--------------------------------------");
         System.out.println("✅ Инициализация завершена!");
     }
