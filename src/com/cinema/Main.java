@@ -10,9 +10,12 @@ import com.cinema.model.user.UserRole;
 import com.cinema.repository.hall.HallRepository;
 import com.cinema.service.hall.HallServiceImpl;
 import com.cinema.service.hall.IHallService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
 
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
         System.out.println("🎬 Добро пожаловать в систему управления кинотеатром!");
