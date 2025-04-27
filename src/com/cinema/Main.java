@@ -15,15 +15,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("Приложение запускается...");
+/*        System.out.println("Приложение запускается...");
         ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-        System.out.println("Приложение запущено!");
+        System.out.println("Приложение запущено!");*/
 
         System.out.println("🎬 Добро пожаловать в систему управления кинотеатром!");
         System.out.println("--------------------------------------");
@@ -44,11 +45,12 @@ public class Main {
         }
 
         // ==== 2. Работа с фильмами ====
-        Film film1 = new Film("Интерстеллар", "Научно-фантастическая драма", 169, Genre.SCI_FI, 8.6, "EN", "", null);
-        Film film2 = new Film("Брат", "Криминальная драма", 100, Genre.ACTION, 7.8, "RU", "", null);
+        Film film1 = new Film("Интерстеллар", "Научно-фантастическая драма", 169, Genre.SCI_FI, 8.6, "EN", "", LocalDate.now());
+        Film film2 = new Film("Брат", "Криминальная драма", 100, Genre.ACTION, 7.8, "RU", "", LocalDate.now());
 
         System.out.println("\n🎞️ Добавленные фильмы:");
         System.out.println(film1);
+        System.out.println(film1.getReleaseDate());
         System.out.println(film2);
 
         // ==== 3. Создание пользователя-клиента ====

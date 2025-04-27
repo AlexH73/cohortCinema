@@ -56,24 +56,24 @@ public abstract class AbstractUser{
         this.email = email;
         this.userLogin = userLogin;
         this.role = role;
-        this.password = passwordUtils.hashPassword(password);
+        this.password = PasswordUtils.hashPassword(password);
     }
 
     public AbstractUser(String email, String firstName, String lastName, String password, Role role, String userLogin) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = passwordUtils.hashPassword(password);
+        this.password = PasswordUtils.hashPassword(password);
         this.role = role;
         this.userLogin = userLogin;
     }
 
     public void setPassword(String password) {
-        this.password = passwordUtils.hashPassword(password); // Хешируем пароль
+        this.password = PasswordUtils.hashPassword(password); // Хешируем пароль
     }
 
     public boolean checkPassword(String rawPassword) {
-        return passwordUtils.checkPassword(rawPassword, this.password); // Сравниваем хеши
+        return PasswordUtils.checkPassword(rawPassword, this.password); // Сравниваем хеши
     }
 
     public String getPassword() {

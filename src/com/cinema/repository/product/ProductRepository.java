@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ProductRepository implements IProductRepository {
 
     // Хранилище продуктов (имитация базы данных)
-    private final Map<String, IProduct> products = new HashMap<>();
+    private final Map<Long, IProduct> products = new HashMap<>();
 
     @Override
     public IProduct save(IProduct product) {
