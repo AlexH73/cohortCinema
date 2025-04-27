@@ -23,7 +23,7 @@ public interface IProductRepository {
      * @param id Уникальный ID продукта.
      * @return true, если продукт успешно удалён; false, если продукт с таким ID не найден.
      */
-    boolean deleteById(String id);
+    boolean deleteById(Long id);
 
     /**
      * Находит продукт по его уникальному идентификатору.
@@ -31,7 +31,7 @@ public interface IProductRepository {
      * @param id Уникальный ID продукта.
      * @return Optional, содержащий объект Product, если найден; иначе Optional.empty().
      */
-    Optional<IProduct> findById(String id);
+    Optional<IProduct> findById(Long id);
 
     /**
      * Возвращает список всех продуктов в хранилище.

@@ -1,7 +1,8 @@
 package com.cinema.repository.session;
 
 import com.cinema.model.session.ISession;
-import com.cinema.model.film.IFilm;
+import com.cinema.model.session.Session;
+
 import java.util.*;
 
 /**
@@ -12,17 +13,18 @@ public class SessionRepository implements ISessionRepository {
     private final Map<String, ISession> sessions = new HashMap<>();
 
     @Override
-    public void save(ISession session) {
-        sessions.put(session.getId(), session); // перезапись по ID, если уже есть
+    public ISession save(ISession session) {
+        sessions.put(String.valueOf(session.getId()), session); // перезапись по ID, если уже есть
+        return session;
     }
 
     @Override
-    public boolean deleteById(String id) {
+    public boolean deleteById(Long id) {
         return sessions.remove(id) != null;
     }
 
     @Override
-    public Optional<ISession> findById(String id) {
+    public Object findById(Long id) {
         return Optional.ofNullable(sessions.get(id));
     }
 
@@ -32,7 +34,7 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Override
-    public List<ISession> findByFilmId(String filmId) {
+    public List<ISession> findByFilmId(Long filmId) {
         List<ISession> result = new ArrayList<>();
         for (ISession session : sessions.values()) {
             if (session.getFilm() != null && session.getFilm().getId().equals(filmId)) {
@@ -43,7 +45,7 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Override
-    public List<ISession> findByHallId(String hallId) {
+    public List<ISession> findByHallId(Long hallId) {
         List<ISession> result = new ArrayList<>();
         for (ISession session : sessions.values()) {
             if (session.getCinemaHall() != null && session.getCinemaHall().getId().equals(hallId)) {
@@ -51,5 +53,9 @@ public class SessionRepository implements ISessionRepository {
             }
         }
         return result;
+    }
+
+    public void delete(Session session) {
+        ///  nuzhno realizovat'
     }
 }

@@ -91,8 +91,9 @@ public interface IProduct {
     void setCurrency(Currency currency);
 
     /**
-     *  Получить id продукта
+     * Получить id продукта
+     *
      * @return id продукта
      */
-    String getId();
+    Long getId();
 }

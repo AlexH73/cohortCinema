@@ -19,7 +19,7 @@ public class Customer extends AbstractUser implements ICustomer {
     private final List<ITicket> bookingHistory = new ArrayList<>();
 
     public Customer(String username, String password) {
-        super(username, password, UserRole.CLIENT); // Изменено
+
     }
 
     // Реализация метода bookTicket из ICustomer
@@ -83,5 +83,35 @@ public class Customer extends AbstractUser implements ICustomer {
         synchronized (bookingHistory) {
             return new ArrayList<>(bookingHistory);
         }
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
+    }
+
+    @Override
+    public void setUsername(String username) {
+
+    }
+
+    @Override
+    public String getPasswordHash() {
+        return "";
+    }
+
+    @Override
+    public void setPasswordHash(String passwordHash) {
+
+    }
+
+    @Override
+    public String getPasswordSalt() {
+        return "";
+    }
+
+    @Override
+    public void setPasswordSalt(String passwordSalt) {
+
     }
 }

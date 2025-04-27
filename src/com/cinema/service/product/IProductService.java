@@ -22,7 +22,7 @@ public interface IProductService {
      * @param id Уникальный ID продукта.
      * @return true, если продукт был успешно удалён, иначе false.
      */
-    void deleteProduct(String id);
+    void deleteProduct(Long id);
 
     /**
      * Получить продукт по его уникальному идентификатору.
@@ -30,7 +30,7 @@ public interface IProductService {
      * @param productId Уникальный ID продукта.
      * @return Найденный продукт или null, если не найден.
      */
-    Product getProductById(String productId);
+    Product getProductById(Long productId);
 
     /**
      * Получить список всех продуктов.
@@ -39,5 +39,5 @@ public interface IProductService {
      */
     List<IProduct> getAllProducts();
 
-    IProduct updateProduct(String id, IProduct product);
+    IProduct updateProduct(Long id, IProduct product);
 }

@@ -101,7 +101,7 @@ public class ProductController implements IProductController {
         String id = scanner.nextLine().trim();
 
         try {
-            productService.deleteProduct(id);
+            productService.deleteProduct(Long.valueOf(id));
             outputHandler.print("✅ Продукт удалён.");
         } catch (ProductNotFoundException e) {
             outputHandler.print("❌ Ошибка: " + e.getMessage());
@@ -127,7 +127,7 @@ public class ProductController implements IProductController {
         String id = scanner.nextLine().trim();
 
         try {
-            IProduct product = productService.getProductById(id);
+            IProduct product = productService.getProductById(Long.valueOf(id));
             outputHandler.print("🔍 Найден продукт: " + product);
         } catch (ProductNotFoundException e) {
             outputHandler.print("❌ Ошибка: " + e.getMessage());

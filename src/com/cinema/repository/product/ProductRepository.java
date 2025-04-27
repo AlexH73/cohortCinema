@@ -23,12 +23,12 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public boolean deleteById(String productId) {
+    public boolean deleteById(Long productId) {
         return products.remove(productId) != null;
     }
 
     @Override
-    public Optional<IProduct> findById(String productId) {
+    public Optional<IProduct> findById(Long productId) {
         return Optional.ofNullable(products.get(productId));
     }
 

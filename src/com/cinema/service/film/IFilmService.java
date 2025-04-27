@@ -1,6 +1,7 @@
 package com.cinema.service.film;
 
 import com.cinema.model.film.Film;
+import com.cinema.model.film.Genre;
 import com.cinema.util.exceptions.FilmCreationException;
 import java.util.List;
 
@@ -57,5 +58,5 @@ public interface IFilmService {
      * @param genre Жанр фильма. Не может быть null.
      * @return Список фильмов с заданным жанром. Если фильмов с заданным жанром нет, возвращает пустой список.
      */
-    List<Film> getFilmsByGenre(String genre);
+    List<Film> getFilmsByGenre(Genre genre);
 }

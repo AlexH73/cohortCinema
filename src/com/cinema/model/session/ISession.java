@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ISession {
 
-    String getId();
+    Long getId();
 
     /**
      * Получить фильм, который будет показываться во время этого сеанса.
