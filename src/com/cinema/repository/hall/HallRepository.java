@@ -20,7 +20,7 @@ public class HallRepository implements IHallRepository {
      */
     @Override
     public void save(Hall hall) {
-        halls.put(hall.getId(), hall);
+        halls.put(hall.getHallName(), hall);
     }
 
     /**

@@ -10,13 +10,20 @@ import com.cinema.model.user.UserRole;
 import com.cinema.repository.hall.HallRepository;
 import com.cinema.service.hall.HallServiceImpl;
 import com.cinema.service.hall.IHallService;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.List;
 
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
+
+        System.out.println("Приложение запускается...");
+        ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
+        System.out.println("Приложение запущено!");
+
         System.out.println("🎬 Добро пожаловать в систему управления кинотеатром!");
         System.out.println("--------------------------------------");
 
@@ -50,6 +57,7 @@ public class Main {
         System.out.println("Роль: " + customer.getRole());
 
         User newUser = new User("Login", "asdfg742", "asdfg742", UserRole.STAFF,"abc@mail.tut", "Иван", "Сидоров");
+        User newUser1 = new User("LoginA", "asdfg743", "asdfg743", UserRole.MANAGER,"abcde@mail.tut", "Сидор", "Иванов");
 
         System.out.println("\n👤 Создан новый "+ newUser.getRole() + ":");
         System.out.println("Логин: " + newUser.getUsername());

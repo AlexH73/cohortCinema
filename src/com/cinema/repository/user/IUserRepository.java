@@ -12,15 +12,15 @@ import java.util.Optional;
  *  Расширяет интерфейс {@link JpaRepository} для наследования стандартных операций CRUD.
  */
 @Repository
-public interface IUserRepository extends JpaRepository<User, String> {
+public interface IUserRepository extends JpaRepository<User, Long> {
 
     /**
      *  Находит пользователя в базе данных по его логину.
      *
-     *  @param login Логин пользователя, которого нужно найти.
+     *  @param username Логин пользователя, которого нужно найти.
      *  @return Объект {@link User}, представляющий пользователя, найденного по логину, или {@code null}, если пользователь не найден.
      */
-    User findByLogin(String login);
+    User findByUsername(String username);
 
     /**
      * Находит пользователя в базе данных по его ID.
@@ -28,5 +28,5 @@ public interface IUserRepository extends JpaRepository<User, String> {
      * @param id ID пользователя, которого нужно найти.
      * @return Объект {@link User}, представляющий пользователя, найденного по ID, или {@link Optional#empty() Optional.empty()}, если пользователь не найден.
      */
-    Optional<User> findById(String id);
+    Optional<User> findById(Long id);
 }

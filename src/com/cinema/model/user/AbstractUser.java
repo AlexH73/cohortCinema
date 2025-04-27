@@ -3,12 +3,19 @@ package com.cinema.model.user;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
 
 /**
  * Абстрактный класс AbstractUser предоставляет базовую реализацию и хранение данных для пользователя.
  */
 public abstract class AbstractUser implements IUser {
-    protected String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     protected String username;
     protected String passwordHash;
     protected String passwordSalt;
@@ -27,7 +34,7 @@ public abstract class AbstractUser implements IUser {
 
     // Конструктор с 7 параметрами (полная инициализация)
     public AbstractUser(String username, String passwordHash, String passwordSalt, UserRole role, String email, String firstName, String lastName) {
-        this.id = UUID.randomUUID().toString();
+
         this.username = username;
         this.passwordHash = passwordHash;
         this.passwordSalt = passwordSalt;
@@ -44,7 +51,7 @@ public abstract class AbstractUser implements IUser {
     }
 
     @Override
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

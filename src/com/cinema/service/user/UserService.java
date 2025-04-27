@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service // Добавляем аннотацию @Service
 public class UserService implements IUserService {
@@ -23,26 +22,26 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User registerUser(String name, String login, String password) {
-        if (userRepository.findByLogin(login) != null) {
+    public User registerUser(String name, String username, String password) {
+        if (userRepository.findByUsername(username) != null) {
             throw new IllegalArgumentException("Пользователь с таким логином уже существует.");
         }
 
         // Хешируем пароль с использованием BCrypt
         String hashedPassword = passwordEncoder.encode(password);
 
-        User user = new User(name, login, hashedPassword); // Сохраняем хешированный пароль
+        User user = new User(name, username, hashedPassword); // Сохраняем хешированный пароль
         userRepository.save(user); // Сохраняем пользователя в базу данных
         return user;
     }
 
     @Override
-    public User findByLogin(String login) {
-        return userRepository.findByLogin(login); // Используем репозиторий для поиска
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username); // Используем репозиторий для поиска
     }
 
     @Override
-    public User findById(String id) {
+    public User findById(Long id) {
         Optional<User> userOptional = userRepository.findById(id); // Используем репозиторий для поиска
         return userOptional.orElse(null);
     }

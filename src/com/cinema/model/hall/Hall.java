@@ -1,13 +1,19 @@
 package com.cinema.model.hall;
 
-import java.util.Objects;
-import java.util.UUID;
+import jakarta.persistence.*;
 
+import java.util.Objects;
+
+@Entity
+@Table(name = "halls")
 /**
  * Класс Hall представляет зал кинотеатра.
  */
 public class Hall implements ICinemaHall {
-    private final String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private int hallNumber;
     private String hallName; // Добавлено
     private String description; // Добавлено
@@ -18,7 +24,6 @@ public class Hall implements ICinemaHall {
 
     public Hall(int hallNumber, int rows, int seatsPerRow, HallType hallType) {
         validate(hallNumber, rows, seatsPerRow);
-        this.id = UUID.randomUUID().toString();
         this.hallNumber = hallNumber;
         this.rows = rows;
         this.seatsPerRow = seatsPerRow;
@@ -112,7 +117,7 @@ public class Hall implements ICinemaHall {
         this.description = description;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

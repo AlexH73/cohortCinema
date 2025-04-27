@@ -80,5 +80,6 @@ public interface ICinemaHall {
      *
      * @return id кинозала.
      */
-    Object getId();
+
+    Long getId();
 }

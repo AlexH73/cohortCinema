@@ -1,10 +1,7 @@
 package com.cinema.model.user;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.UUID;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "users")
@@ -48,8 +45,7 @@ public class User extends AbstractUser implements IUser {
 
     // Конструктор с 7 параметрами (полная инициализация)
     public User(String username, String passwordHash, String passwordSalt, UserRole role, String email, String firstName, String lastName) {
-        
-        super.id = UUID.randomUUID().toString();
+
         super.username = username;
         super.passwordHash = passwordHash;
         super.passwordSalt = passwordSalt;
