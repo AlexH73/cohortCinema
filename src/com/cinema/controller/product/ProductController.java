@@ -2,8 +2,8 @@ package com.cinema.controller.product;
 
 import com.cinema.model.product.Product;
 import com.cinema.model.product.IProduct;
-import com.cinema.util.exceptions.ProductNotFoundException;
 import com.cinema.service.product.IProductService;
+import com.cinema.util.exceptions.ProductNotFoundException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,38 +12,45 @@ import java.util.Currency;
 
 public class ProductController implements IProductController {
     private final IProductService productService;
-    private final Scanner scanner;
-    private final OutputHandler outputHandler;
+    private final ConsoleOutputHandler outputHandler;
+    private final Scanner scanner; // Переносим Scanner сюда, в поле класса
 
-    public ProductController(IProductService productService, Scanner scanner, OutputHandler outputHandler) {
+    public ProductController(IProductService productService, ConsoleOutputHandler outputHandler) {
         this.productService = productService;
-        this.scanner = scanner;
         this.outputHandler = outputHandler;
+        this.scanner = new Scanner(System.in); // Инициализация здесь
     }
 
     public void runProductMenu() {
-        boolean exit = false;
+        int choice;
 
-        while (!exit) {
-            outputHandler.print("\n=== Управление продуктами ===");
-            outputHandler.print("1. Добавить продукт");
-            outputHandler.print("2. Удалить продукт");
-            outputHandler.print("3. Показать все продукты");
-            outputHandler.print("4. Найти продукт по ID");
-            outputHandler.print("0. Назад");
+        do {
+            System.out.println("\n=== Меню продуктов ===");
+            System.out.println("1. Показать все продукты");
+            System.out.println("2. Добавить продукт");
+            System.out.println("3. Найти продукт по ID");
+            System.out.println("4. Удалить продукт");
+            System.out.println("0. Выход");
+            System.out.print("Введите ваш выбор: ");
 
-            outputHandler.print("Выберите действие: ");
-            String choice = scanner.nextLine().trim();
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Ошибка: Введите корректное число.");
+                choice = -1;
+            }
 
             switch (choice) {
-                case "1" -> addProduct();
-                case "2" -> removeProduct();
-                case "3" -> showAllProducts();
-                case "4" -> findProductById();
-                case "0" -> exit = true;
-                default -> outputHandler.print("❗ Неверный ввод. Попробуйте снова.");
+                case 1 -> showAllProducts();
+                case 2 -> addProduct();
+                case 3 -> findProductById();
+                case 4 -> removeProduct();
+                case 0 -> System.out.println("Выход из меню продуктов.");
+                default -> System.out.println("Неверный выбор. Попробуйте ещё раз.");
             }
-        }
+        } while (choice != 0);
+
+        scanner.close(); // Закрыть Scanner здесь
     }
 
     private void addProduct() {
@@ -84,7 +91,8 @@ public class ProductController implements IProductController {
         }
 
         BigDecimal priceBigDecimal = BigDecimal.valueOf(price);
-        Currency currency = Currency.getInstance("USD"); // Валюта по умолчанию
+        Currency currency = Currency.getInstance("USD");
+
         IProduct product = new Product(
                 name,
                 description,
@@ -92,17 +100,21 @@ public class ProductController implements IProductController {
                 stockQuantity,
                 currency
         );
+
         productService.createProduct(product);
         outputHandler.print("✅ Продукт добавлен: " + product);
     }
 
     private void removeProduct() {
         outputHandler.print("Введите ID продукта для удаления: ");
-        String id = scanner.nextLine().trim();
+        String idInput = scanner.nextLine().trim();
 
         try {
-            productService.deleteProduct(Long.valueOf(id));
+            Long id = Long.parseLong(idInput);
+            productService.deleteProduct(id);
             outputHandler.print("✅ Продукт удалён.");
+        } catch (NumberFormatException e) {
+            outputHandler.print("❗ Неверный формат ID.");
         } catch (ProductNotFoundException e) {
             outputHandler.print("❌ Ошибка: " + e.getMessage());
         }
@@ -124,11 +136,14 @@ public class ProductController implements IProductController {
 
     private void findProductById() {
         outputHandler.print("Введите ID продукта: ");
-        String id = scanner.nextLine().trim();
+        String idInput = scanner.nextLine().trim();
 
         try {
-            IProduct product = productService.getProductById(Long.valueOf(id));
+            Long id = Long.parseLong(idInput);
+            IProduct product = productService.getProductById(id);
             outputHandler.print("🔍 Найден продукт: " + product);
+        } catch (NumberFormatException e) {
+            outputHandler.print("❗ Неверный формат ID.");
         } catch (ProductNotFoundException e) {
             outputHandler.print("❌ Ошибка: " + e.getMessage());
         }

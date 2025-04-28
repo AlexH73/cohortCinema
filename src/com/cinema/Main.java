@@ -1,8 +1,8 @@
 package com.cinema;
 
+
+import com.cinema.controller.product.ConsoleOutputHandler;
 import com.cinema.controller.product.ProductController;
-import com.cinema.model.product.IProduct;
-import com.cinema.model.product.Product;
 import com.cinema.model.user.AbstractUser;
 import com.cinema.model.user.Role;
 import com.cinema.model.user.User;
@@ -12,16 +12,15 @@ import com.cinema.model.hall.Hall;
 import com.cinema.model.hall.HallType;
 import com.cinema.model.user.Customer;
 import com.cinema.repository.hall.HallRepository;
+import com.cinema.repository.product.IProductRepository;
+import com.cinema.repository.product.ProductRepository;
 import com.cinema.service.hall.HallServiceImpl;
 import com.cinema.service.hall.IHallService;
 import com.cinema.service.product.ProductService;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Scanner;
 
 @SpringBootApplication
 public class Main {
@@ -77,11 +76,17 @@ public class Main {
         System.out.println("Id: " + newUser.getId());
         System.out.println(newUser);
 
-        IProduct product = new Product("PopCorn", "Кукуруза сладкая", 10000000, 100, 999);
-        Scanner scanner = new Scanner(System.in);
-        int scaner = scanner.nextInt();
-        ProductService productService = new ProductService(product);
-        ProductController menu = new ProductController(productService, scaner, "Prodavec");
+        // Инициализация репозитория и сервиса
+        IProductRepository tempRepo = new ProductRepository();
+        ProductService productService = new ProductService(tempRepo);
+
+        // Создание контроллера
+        ProductController menu = new ProductController(
+                productService,
+                new ConsoleOutputHandler()
+        );
+
+        // Запуск меню
         menu.runProductMenu();
         System.out.println("--------------------------------------");
         System.out.println("✅ Инициализация завершена!");
