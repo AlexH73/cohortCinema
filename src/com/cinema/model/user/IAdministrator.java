@@ -1,5 +1,6 @@
 package com.cinema.model.user;
 
+import com.cinema.model.film.Genre;
 import com.cinema.model.film.IFilm;
 import com.cinema.model.hall.ICinemaHall;
 import com.cinema.model.product.IProduct;
@@ -13,34 +14,36 @@ import com.cinema.util.exceptions.ProductCreationException;
 import com.cinema.util.exceptions.ProductDeletionException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Currency;
 
 /**
  * Интерфейс IAdministrator предоставляет контракт для класса, представляющего администратора в системе управления кинотеатром.
  */
-public interface IAdministrator extends IUser {
+public interface IAdministrator {
 
     /**
      * Создать новый фильм в системе.
      *
-     * @param name     Название фильма.
-     * @param duration Продолжительность фильма.
+     * @param title     Название фильма.
+     * @param durationMinutes Продолжительность фильма.
      * @return Информация о созданном фильме.
      * @throws FilmCreationException Если не удалось создать фильм.
      */
-    IFilm createFilm(String name, int duration) throws FilmCreationException;
+    IFilm createFilm(String title, String description, int durationMinutes, Genre genre,
+                     double rating, String language, String posterUrl, LocalDate releaseDate) throws FilmCreationException;
 
     /**
      * Создать новый сеанс в системе.
      *
      * @param film      Фильм для сеанса.
-     * @param hall      Кинозал для сеанса.
-     * @param dateTime  Дата и время сеанса.
+     * @param cinemaHall      Кинозал для сеанса.
+     * @param startTime Дата и время сеанса.
      * @return Информация о созданном сеансе.
      * @throws SessionCreationException Если не удалось создать сеанс.
      */
-    ISession createSession(IFilm film, ICinemaHall hall, LocalDateTime dateTime) throws SessionCreationException;
+    ISession createSession(IFilm film, ICinemaHall cinemaHall, LocalDateTime startTime, double ticketPrice) throws SessionCreationException;
 
     /**
      * Создать новый продукт в системе.
@@ -53,8 +56,7 @@ public interface IAdministrator extends IUser {
      * @return Информация о созданном продукте.
      * @throws ProductCreationException Если не удалось создать продукт.
      */
-    IProduct createProduct(String name, BigDecimal price, String description,
-                           int stockQuantity, Currency currency) throws ProductCreationException;
+    IProduct createProduct(String name, String description, BigDecimal price, int stockQuantity, Currency currency) throws ProductCreationException;
 
     /**
      * Удалить фильм из системы.

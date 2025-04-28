@@ -2,125 +2,138 @@ package com.cinema.model.user;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
+import com.cinema.util.utils.PasswordUtils;
+import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 /**
  * Абстрактный класс AbstractUser предоставляет базовую реализацию и хранение данных для пользователя.
  */
-public abstract class AbstractUser implements IUser {
-    protected String id;
-    protected String username;
-    protected String passwordHash;
-    protected String passwordSalt;
-    protected String email;
-    protected String firstName;
-    protected String lastName;
-    protected UserRole role;
-    protected LocalDateTime createdAt;
-    protected boolean isActive;
+public abstract class AbstractUser{
 
-    // Конструктор с 3 параметрами (более простой)
-    public AbstractUser(String username, String password, UserRole role) {
-        this(username, "", "", role, "", "", ""); // Вызываем конструктор с 7 параметрами с значениями по умолчанию
-        this.passwordHash = password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "userLogin", nullable = false, unique = true)
+    private String userLogin;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "email", nullable = false)
+    protected String email;
+
+    @Column(name = "firstName", nullable = true)
+    protected String firstName;
+
+    @Column(name = "firstName", nullable = true)
+    protected String lastName;
+
+    @Column(name = "role", nullable = false)
+    private Role role;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    protected boolean isActive = true;
+
+    // Внедряем PasswordUtils (если нужно создавать пользователей в этом классе)
+    @Transient // Не сохраняем в базе данных
+    @Autowired
+    private PasswordUtils passwordUtils;
+
+    public AbstractUser() {
     }
 
-    // Конструктор с 7 параметрами (полная инициализация)
-    public AbstractUser(String username, String passwordHash, String passwordSalt, UserRole role, String email, String firstName, String lastName) {
-        this.id = UUID.randomUUID().toString();
-        this.username = username;
-        this.passwordHash = passwordHash;
-        this.passwordSalt = passwordSalt;
+    public AbstractUser(String email, String userLogin, Role role, String password) {
+        this.email = email;
+        this.userLogin = userLogin;
         this.role = role;
+        this.password = PasswordUtils.hashPassword(password);
+    }
+
+    public AbstractUser(String email, String firstName, String lastName, String password, Role role, String userLogin) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.createdAt = LocalDateTime.now();
-        this.isActive = true;
+        this.password = PasswordUtils.hashPassword(password);
+        this.role = role;
+        this.userLogin = userLogin;
     }
 
-    @Override
-    public String getId() {
+    public void setPassword(String password) {
+        this.password = PasswordUtils.hashPassword(password); // Хешируем пароль
+    }
+
+    public boolean checkPassword(String rawPassword) {
+        return PasswordUtils.checkPassword(rawPassword, this.password); // Сравниваем хеши
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    @Override
-    public void setUsername(String username) {
-        this.username = username; // Set the field
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
-    @Override
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
-
-    @Override
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
-    }
-
-    @Override
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    @Override
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    @Override
     public String getEmail() {
         return email;
     }
 
-    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
-    @Override
     public String getFirstName() {
         return firstName;
     }
 
-    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    @Override
     public String getLastName() {
         return lastName;
     }
 
-    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    @Override
     public boolean isActive() {
         return isActive;
     }
 
-    @Override
     public void setActive(boolean active) {
         isActive = active;
     }
 
-    public UserRole getRole() {
+    public Role getRole() {
         return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
@@ -130,9 +143,7 @@ public abstract class AbstractUser implements IUser {
         AbstractUser that = (AbstractUser) o;
         return isActive == that.isActive &&
                 id.equals(that.id) &&
-                username.equals(that.username) &&
-                // passwordHash.equals(that.passwordHash) && // Исключено
-                // passwordSalt.equals(that.passwordSalt) && // Исключено
+                userLogin.equals(that.userLogin) &&
                 email.equals(that.email) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
@@ -142,15 +153,14 @@ public abstract class AbstractUser implements IUser {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username,  email, firstName, lastName, role, createdAt, isActive); // Исключено
+        return Objects.hash(id, userLogin, email, firstName, lastName, role, createdAt, isActive);
     }
 
     @Override
     public String toString() {
         return "AbstractUser{" +
                 "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
+                ", userLogin='" + userLogin + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", role=" + role +

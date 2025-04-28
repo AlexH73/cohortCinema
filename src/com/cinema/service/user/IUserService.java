@@ -9,21 +9,21 @@ public interface IUserService {
     /**
      * Зарегистрировать нового пользователя.
      * @param name Имя
-     * @param login Логин
+     * @param username Логин
      * @param password Пароль
      * @return Новый пользователь
      */
-    User registerUser(String name, String login, String password);
+    User registerUser(String name, String username, String password);
 
     /**
      * Найти пользователя по логину.
      */
-    User findByLogin(String login);
+    User findByUsername(String username);
 
     /**
      * Найти пользователя по ID.
      */
-    User findById(String id);
+    User findById(Long id);
 
     /**
      * Получить всех пользователей.

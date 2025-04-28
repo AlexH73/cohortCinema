@@ -3,6 +3,7 @@ package com.cinema.model.ticket;
 import com.cinema.model.hall.Seat;
 import com.cinema.model.session.ISession;
 import com.cinema.model.user.Customer;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -10,8 +11,13 @@ import java.util.UUID;
 /**
  * Класс Ticket представляет билет, купленный на определённый сеанс.
  */
+@Entity
+@Table(name = "ticket")
 public class Ticket implements ITicket {
-    private final String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private ISession session;
     private Customer user;
     private Seat seat;
@@ -20,7 +26,6 @@ public class Ticket implements ITicket {
 
     public Ticket(ISession session, Customer user, Seat seat, double price) {
         validate(session, seat, price);
-        this.id = UUID.randomUUID().toString();
         this.session = session;
         this.user = user;
         this.price = price;

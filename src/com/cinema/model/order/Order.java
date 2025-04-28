@@ -4,6 +4,9 @@ import com.cinema.model.product.IProduct;
 import com.cinema.model.ticket.ITicket;
 import com.cinema.model.ticket.TicketStatus;
 import com.cinema.model.user.Customer;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,7 +16,9 @@ import java.util.*;
  * Класс Order представляет заказ, сделанный пользователем (билеты и/или продукты).
  */
 public class Order implements IOrder {
-    private final String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Customer user;
     private List<ITicket> tickets;
     private Map<IProduct, Integer> products;
@@ -21,7 +26,6 @@ public class Order implements IOrder {
     private OrderStatus status; // "NEW", "PAID", "CANCELLED"
 
     public Order(Customer user) {
-        this.id = UUID.randomUUID().toString();
         this.status = OrderStatus.NEW;
         this.products = new HashMap<>();
         this.tickets = new ArrayList<>();
@@ -80,7 +84,7 @@ public class Order implements IOrder {
         }
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

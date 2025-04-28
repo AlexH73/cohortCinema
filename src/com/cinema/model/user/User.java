@@ -1,10 +1,7 @@
 package com.cinema.model.user;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.UUID;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "users")
@@ -12,172 +9,11 @@ import org.hibernate.annotations.GenericGenerator;
 /**
  * Класс User представляет пользователя системы (клиент, сотрудник или администратор).
  */
-public class User implements IUser {
-    // Уникальный идентификатор пользователя (генерируется автоматически)
-    private final String id;
-
-    // Имя пользователя
-    private String username;
-
-    // Email пользователя (будет использоваться для авторизации)
-    private String email;
-
-    private String firstName;
-    private String lastName;
-
-    // Хеш пароля
-    private String passwordHash;
-
-    // Соль для хеширования пароля
-    private String passwordSalt;
-
-    // Роль пользователя (CLIENT, STAFF, ADMIN)
-    private UserRole role;
-
-    private LocalDateTime createdAt;
-    private boolean isActive;
-
-    /**
-     * Конструктор создаёт нового пользователя с уникальным ID.
-     */
-    public User(UserRole role, String username, String passwordHash, String passwordSalt,
-                String email, String firstName, String lastName) {
-        this.id = UUID.randomUUID().toString(); // Генерация уникального ID
-        this.role = role;
-        this.username = username;
-        this.passwordHash = passwordHash;
-        this.passwordSalt = passwordSalt;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.createdAt = LocalDateTime.now();
-        this.isActive = true;
+public class User extends AbstractUser {
+    public User(String email, String firstName, String lastName, String password, Role role, String userLogin) {
+        super(email, firstName, lastName, password, role, userLogin);
     }
 
-    public User(String name, String login, String passwordHash) {
-        this.id = UUID.randomUUID().toString(); // Генерация уникального ID
-        this.firstName = name;
-        this.username = login;
-        this.passwordHash = passwordHash;
-    }
-
-    public User() {
-        this.id = UUID.randomUUID().toString(); // Генерация уникального ID
-    }
-
-    // Геттеры и сеттеры для всех полей
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    @Override
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    @Override
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
-
-    @Override
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
-    @Override
-    public String getFirstName() {
-        return firstName;
-    }
-
-    @Override
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    @Override
-    public String getLastName() {
-        return lastName;
-    }
-
-    @Override
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    @Override
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    @Override
-    public boolean isActive() {
-        return isActive;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", role=" + role +
-                ", createdAt=" + createdAt +
-                ", isActive=" + isActive +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return isActive == user.isActive && id.equals(user.id) && username.equals(user.username) && email.equals(user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && passwordHash.equals(user.passwordHash) && passwordSalt.equals(user.passwordSalt) && role == user.role && createdAt.equals(user.createdAt);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, email, firstName, lastName, passwordHash, passwordSalt, role, createdAt, isActive);
+    public User(String name, String username, String hashedPassword) {
     }
 }

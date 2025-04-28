@@ -1,25 +1,39 @@
 package com.cinema.model.product;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Класс Product представляет товар, который можно приобрести (еда, напитки и т.д.).
  */
+@Entity
+@Table(name = "product")
 public class Product implements IProduct{
-    private final String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(length = 1000)
     private String description;
+
+    @Column(nullable = false)
     private BigDecimal price;
+
+    @Column(nullable = false)
     private Currency currency;
+
+    @Column(nullable = true)
     private int stockQuantity;
 
     public Product(String name, String description, BigDecimal price, int stockQuantity, Currency currency) {
         validatePrice(price);
         validateStock(stockQuantity);
-        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.price = price;
@@ -114,7 +128,7 @@ public class Product implements IProduct{
     }
 
     // Геттер для ID
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

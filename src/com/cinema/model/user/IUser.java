@@ -12,7 +12,7 @@ public interface IUser {
      *
      * @return Идентификатор пользователя.
      */
-    String getId();
+    Long getId();
 
     /**
      * Получить имя пользователя.

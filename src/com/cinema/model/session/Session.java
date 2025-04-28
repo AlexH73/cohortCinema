@@ -3,25 +3,46 @@ package com.cinema.model.session;
 import com.cinema.model.film.IFilm;
 import com.cinema.model.hall.ICinemaHall;
 import com.cinema.model.ticket.ITicket;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Entity
 /**
  * Класс Session представляет собой сеанс показа фильма в конкретном зале и времени.
  */
 public class Session implements ISession {
-    private final String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "film_id", nullable = false)
     private IFilm film;
+
+    @ManyToOne
+    @JoinColumn(name = "cinema_hall_id", nullable = false)
     private ICinemaHall cinemaHall;
+
+    @Column(name = "date_time_start", nullable = false)
     private LocalDateTime startTime;
+
+    @Column(name = "date_time_end", nullable = false)
     private LocalDateTime endTime;
+
+    @Column(name = "ticket_price", nullable = false)
     private double ticketPrice;
+
+    @Column(name = "seats", nullable = false)
     private int availableSeats;
+
+    @Column(name = "tickets", nullable = false)
     private final Set<ITicket> tickets = new HashSet<>();
 
     public Session(IFilm film, ICinemaHall cinemaHall, LocalDateTime startTime, double ticketPrice) {
         validate(film, cinemaHall, ticketPrice);
-        this.id = UUID.randomUUID().toString();
         this.film = film;
         this.cinemaHall = cinemaHall;
         this.startTime = startTime;
@@ -40,14 +61,14 @@ public class Session implements ISession {
 
     private LocalDateTime calculateEndTime() {
         if (film != null) {
-            return startTime.plusMinutes(film.getDuration());
+            return startTime.plusMinutes(film.getDurationMinutes());
         }
         return startTime; // Или можно выбрасывать исключение, если film == null
     }
 
     // Реализация методов интерфейса
     @Override
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -132,7 +153,7 @@ public class Session implements ISession {
     public String toString() {
         return "Session{" +
                 "id='" + id + '\'' +
-                ", film=" + (film != null ? film.getName() : "null") + // Проверка на null
+                ", film=" + (film != null ? film.getTitle() : "null") + // Проверка на null
                 ", cinemaHall=" + (cinemaHall != null ? cinemaHall.getHallNumber() : "null") + // Проверка на null
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +

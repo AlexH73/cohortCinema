@@ -1,6 +1,8 @@
 package com.cinema.repository.product;
 
 import com.cinema.model.product.IProduct;
+import com.cinema.model.product.Product;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.Optional;
 public class ProductRepository implements IProductRepository {
 
     // Хранилище продуктов (имитация базы данных)
-    private final Map<String, IProduct> products = new HashMap<>();
+    private final Map<Long, IProduct> products = new HashMap<>();
 
     @Override
     public IProduct save(IProduct product) {
@@ -23,12 +25,12 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public boolean deleteById(String productId) {
+    public boolean deleteById(Long productId) {
         return products.remove(productId) != null;
     }
 
     @Override
-    public Optional<IProduct> findById(String productId) {
+    public Optional<IProduct> findById(Long productId) {
         return Optional.ofNullable(products.get(productId));
     }
 
@@ -61,5 +63,12 @@ public class ProductRepository implements IProductRepository {
     @Override
     public void clear() {
         products.clear();
+    }
+
+    public boolean existsByName(String name) {
+        return true;
+    }
+
+    public void delete(Product product) {
     }
 }

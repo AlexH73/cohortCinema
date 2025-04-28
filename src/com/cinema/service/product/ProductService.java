@@ -27,7 +27,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProductById(String id) {
+    public Product getProductById(Long id) {
         return (Product) productRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Продукт с ID " + id + " не найден")); // Если продукт не найден, выбрасываем исключение
     }
@@ -40,7 +40,7 @@ public class ProductService implements IProductService {
 
 
     @Override
-    public IProduct updateProduct(String id, IProduct product) {
+    public IProduct updateProduct(Long id, IProduct product) {
         IProduct existingProduct = getProductById(id); // Используем getProductById, чтобы обработать случай, когда продукт не найден
 
         existingProduct.setName(product.getName()); // Обновляем имя
@@ -52,7 +52,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void deleteProduct(String id) {
+    public void deleteProduct(Long id) {
         productRepository.deleteById(id); // Удаляем продукт из базы данных
     }
 }

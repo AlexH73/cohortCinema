@@ -12,28 +12,28 @@ public interface IFilm {
      *
      * @return Название фильма.
      */
-    String getName();
+    String getTitle();
 
     /**
      * Установить новое название фильма.
      *
-     * @param name Новое название фильма.
+     * @param title Новое название фильма.
      */
-    void setName(String name);
+    void setTitle(String title);
 
     /**
      * Получить продолжительность фильма в минутах.
      *
      * @return Продолжительность фильма.
      */
-    int getDuration();
+    int getDurationMinutes();
 
     /**
      * Установить новую продолжительность фильма.
      *
-     * @param duration Продолжительность фильма в минутах.
+     * @param durationMinutes Продолжительность фильма в минутах.
      */
-    void setDuration(int duration);
+    void setDurationMinutes(int durationMinutes);
 
     /**
      * Получить жанр фильма.
@@ -124,5 +124,5 @@ public interface IFilm {
      *
      * @return id фильма.
      */
-    String getId();
+    Long getId();
 }
