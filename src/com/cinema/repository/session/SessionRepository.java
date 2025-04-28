@@ -1,5 +1,6 @@
 package com.cinema.repository.session;
 
+import com.cinema.model.hall.ICinemaHall;
 import com.cinema.model.session.ISession;
 import com.cinema.model.session.Session;
 
@@ -57,5 +58,9 @@ public class SessionRepository implements ISessionRepository {
 
     public void delete(Session session) {
         ///  nuzhno realizovat'
+    }
+
+    public List<ISession> findByCinemaHall(ICinemaHall hall) {
+        return null;
     }
 }

@@ -1,6 +1,8 @@
 package com.cinema.repository.product;
 
 import com.cinema.model.product.IProduct;
+import com.cinema.model.product.Product;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,5 +63,12 @@ public class ProductRepository implements IProductRepository {
     @Override
     public void clear() {
         products.clear();
+    }
+
+    public boolean existsByName(String name) {
+        return true;
+    }
+
+    public void delete(Product product) {
     }
 }

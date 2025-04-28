@@ -3,13 +3,13 @@ package com.cinema.model.user;
 import com.cinema.model.film.Film;
 import com.cinema.model.film.Genre;
 import com.cinema.model.film.IFilm;
-import com.cinema.model.hall.Hall;
 import com.cinema.model.hall.ICinemaHall;
 import com.cinema.model.product.IProduct;
 import com.cinema.model.product.Product;
 import com.cinema.model.session.ISession;
 import com.cinema.model.session.Session;
 import com.cinema.repository.film.FilmRepository;
+import com.cinema.repository.product.ProductRepository;
 import com.cinema.repository.session.SessionRepository;
 import com.cinema.service.report.IReportGenerator;
 import com.cinema.util.exceptions.FilmCreationException;
@@ -22,11 +22,13 @@ import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Currency;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("ADMINISTRATOR")
@@ -44,14 +46,15 @@ public class Administrator extends AbstractUser implements IAdministrator {
     @Transient
     private IReportGenerator reportGenerator;
 
-    // Конструктор без аргументов нужен для JPA
-    protected Administrator() {
-        super();
-    }
+    @Autowired
+    @Transient
+    private final ProductRepository productRepository;
 
     // Основной конструктор для создания нового администратора вручную
-    public Administrator(String email, String firstName, String lastName, String password, String userLogin) {
+    public Administrator(String email, String firstName, String lastName, String password, String userLogin,
+                         ProductRepository productRepository) {
         super(email, firstName, lastName, password, Role.ADMIN, userLogin);
+        this.productRepository = productRepository;
     }
 
     // Специальный метод для внедрения зависимостей вручную (если не используем Spring DI)
@@ -66,6 +69,10 @@ public class Administrator extends AbstractUser implements IAdministrator {
     public IFilm createFilm(String title, String description, int durationMinutes, Genre genre,
                             double rating, String language, String posterUrl, LocalDate releaseDate) throws FilmCreationException {
         try {
+            if (filmRepository.findByTitle(title)) {
+                throw new FilmCreationException("Фильм с таким названием уже существует: " + title);
+            }
+
             Film film = new Film(title, description, durationMinutes, genre, rating, language, posterUrl, releaseDate);
             return filmRepository.save(film);
         } catch (Exception e) {
@@ -83,34 +90,27 @@ public class Administrator extends AbstractUser implements IAdministrator {
             }
 
             Session session = new Session(film, cinemaHall, startTime, ticketPrice);
-            session.setFilm(film);
-            session.setCinemaHall(cinemaHall);
-            session.setStartTime(startTime);
-            session.setTicketPrice(ticketPrice);
-
-            ISession savedSession = sessionRepository.save(session);
-
-            logger.info("Сеанс успешно создан: {}", savedSession.getFilm().getTitle());
-            return savedSession;
+            return sessionRepository.save(session);
         } catch (Exception e) {
-            logger.error("Не удалось создать сеанс", e);
+            logger.error("Ошибка создания сеанса: {}", e.getMessage());
             throw new SessionCreationException("Не удалось создать сеанс: " + e.getMessage());
         }
     }
 
-
-
     @Override
     public IProduct createProduct(String name, String description, BigDecimal price, int stockQuantity, Currency currency) throws ProductCreationException {
         try {
-            // Создаём новый продукт
-            return new Product(name, description, price, stockQuantity, currency);
+            if (productRepository.existsByName(name)) {
+                throw new ProductCreationException("Продукт с таким названием уже существует: " + name);
+            }
+
+            Product product = new Product(name, description, price, stockQuantity, currency);
+            return productRepository.save(product);
         } catch (Exception e) {
             logger.error("Ошибка создания продукта: {}", e.getMessage());
             throw new ProductCreationException("Не удалось создать продукт: " + e.getMessage());
         }
     }
-
 
     @Override
     @Transactional
@@ -135,9 +135,14 @@ public class Administrator extends AbstractUser implements IAdministrator {
     }
 
     @Override
+    @Transactional
     public void deleteProduct(IProduct product) throws ProductDeletionException {
-        // Здесь нужна интеграция с ProductRepository (ещё надо будет реализовать)
-        throw new UnsupportedOperationException("Удаление продукта пока не реализовано.");
+        try {
+            productRepository.delete((Product) product);
+        } catch (Exception e) {
+            logger.error("Ошибка удаления продукта: {}", e.getMessage());
+            throw new ProductDeletionException("Не удалось удалить продукт: " + e.getMessage());
+        }
     }
 
     @Override
@@ -150,7 +155,13 @@ public class Administrator extends AbstractUser implements IAdministrator {
      * Здесь пока заглушка — в реальности нужно проверять пересечение времени сеансов.
      */
     private boolean isCinemaHallAvailable(ICinemaHall hall, LocalDateTime startTime, int durationMinutes) {
-        // TODO: Реализовать логику реальной проверки по расписанию
+        List<ISession> sessions = sessionRepository.findByCinemaHall(hall);
+        for (ISession session : sessions) {
+            LocalDateTime sessionEndTime = session.getStartTime().plusMinutes(session.getFilm().getDurationMinutes());
+            if (startTime.isBefore(sessionEndTime) && startTime.plusMinutes(durationMinutes).isAfter(session.getStartTime())) {
+                return false;
+            }
+        }
         return true;
     }
 }
