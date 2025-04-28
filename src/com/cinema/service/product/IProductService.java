@@ -30,7 +30,7 @@ public interface IProductService {
      * @param productId Уникальный ID продукта.
      * @return Найденный продукт или null, если не найден.
      */
-    Product getProductById(Long productId);
+    IProduct getProductById(Long productId);
 
     /**
      * Получить список всех продуктов.

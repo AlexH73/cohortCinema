@@ -3,6 +3,7 @@ package com.cinema.model.user;
 import com.cinema.model.film.Genre;
 import com.cinema.model.film.IFilm;
 import com.cinema.model.hall.ICinemaHall;
+import com.cinema.model.product.CurrencyType;
 import com.cinema.model.product.IProduct;
 import com.cinema.model.session.ISession;
 import com.cinema.service.report.IReportGenerator;
@@ -56,7 +57,7 @@ public interface IAdministrator {
      * @return Информация о созданном продукте.
      * @throws ProductCreationException Если не удалось создать продукт.
      */
-    IProduct createProduct(String name, String description, BigDecimal price, int stockQuantity, Currency currency) throws ProductCreationException;
+    IProduct createProduct(String name, String description, BigDecimal price, int stockQuantity, CurrencyType currency) throws ProductCreationException;
 
     /**
      * Удалить фильм из системы.

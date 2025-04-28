@@ -23,11 +23,11 @@ public class ProductService implements IProductService {
 
     @Override
     public IProduct createProduct(IProduct product) {
-        return productRepository.save(product); // Сохраняем продукт в базу данных
+        return (Product) productRepository.save(product); // Сохраняем продукт в базу данных
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public IProduct getProductById(Long id) {
         return (Product) productRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Продукт с ID " + id + " не найден")); // Если продукт не найден, выбрасываем исключение
     }
@@ -47,6 +47,7 @@ public class ProductService implements IProductService {
         existingProduct.setDescription(product.getDescription()); // Обновляем описание
         existingProduct.setPrice(product.getPrice()); // Обновляем цену
         existingProduct.setStockQuantity(product.getStockQuantity()); // Обновляем количество на складе
+        existingProduct.setCurrency(product.getCurrency()); // Обновляем валюту
 
         return productRepository.save(existingProduct); // Сохраняем обновленный продукт в базу данных
     }
