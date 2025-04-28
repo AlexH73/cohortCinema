@@ -4,6 +4,7 @@ import com.cinema.model.film.Film;
 import com.cinema.model.film.Genre;
 import com.cinema.model.film.IFilm;
 import com.cinema.model.hall.ICinemaHall;
+import com.cinema.model.product.CurrencyType;
 import com.cinema.model.product.IProduct;
 import com.cinema.model.product.Product;
 import com.cinema.model.session.ISession;
@@ -27,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Currency;
 import java.util.List;
 
 @Entity
@@ -98,7 +98,7 @@ public class Administrator extends AbstractUser implements IAdministrator {
     }
 
     @Override
-    public IProduct createProduct(String name, String description, BigDecimal price, int stockQuantity, Currency currency) throws ProductCreationException {
+    public IProduct createProduct(String name, String description, BigDecimal price, int stockQuantity, CurrencyType currency) throws ProductCreationException {
         try {
             if (productRepository.existsByName(name)) {
                 throw new ProductCreationException("Продукт с таким названием уже существует: " + name);

@@ -1,5 +1,6 @@
 package com.cinema.controller.product;
 
+import com.cinema.model.product.CurrencyType;
 import com.cinema.model.product.Product;
 import com.cinema.model.product.IProduct;
 import com.cinema.service.product.IProductService;
@@ -8,35 +9,40 @@ import com.cinema.util.exceptions.ProductNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Currency;
 
+/**
+ * Контроллер для управления продуктами через консольное меню.
+ */
 public class ProductController implements IProductController {
     private final IProductService productService;
     private final ConsoleOutputHandler outputHandler;
-    private final Scanner scanner; // Переносим Scanner сюда, в поле класса
+    private final Scanner scanner;
 
     public ProductController(IProductService productService, ConsoleOutputHandler outputHandler) {
         this.productService = productService;
         this.outputHandler = outputHandler;
-        this.scanner = new Scanner(System.in); // Инициализация здесь
+        this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Запускает основное меню для управления продуктами.
+     */
     public void runProductMenu() {
         int choice;
 
         do {
-            System.out.println("\n=== Меню продуктов ===");
-            System.out.println("1. Показать все продукты");
-            System.out.println("2. Добавить продукт");
-            System.out.println("3. Найти продукт по ID");
-            System.out.println("4. Удалить продукт");
-            System.out.println("0. Выход");
-            System.out.print("Введите ваш выбор: ");
+            outputHandler.printInfo("\n=== Меню продуктов ===");
+            outputHandler.printInfo("1. Показать все продукты");
+            outputHandler.printInfo("2. Добавить продукт");
+            outputHandler.printInfo("3. Найти продукт по ID");
+            outputHandler.printInfo("4. Удалить продукт");
+            outputHandler.printInfo("0. Выход");
+            outputHandler.print("Введите ваш выбор: ");
 
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: Введите корректное число.");
+                outputHandler.printWarning("❗ Ошибка: Введите корректное число.");
                 choice = -1;
             }
 
@@ -45,19 +51,19 @@ public class ProductController implements IProductController {
                 case 2 -> addProduct();
                 case 3 -> findProductById();
                 case 4 -> removeProduct();
-                case 0 -> System.out.println("Выход из меню продуктов.");
-                default -> System.out.println("Неверный выбор. Попробуйте ещё раз.");
+                case 0 -> outputHandler.printSuccess("Выход из меню продуктов.");
+                default -> outputHandler.printWarning("❗ Неверный выбор. Попробуйте ещё раз.");
             }
         } while (choice != 0);
 
-        scanner.close(); // Закрыть Scanner здесь
+        scanner.close();
     }
 
     private void addProduct() {
         outputHandler.print("Введите название продукта: ");
         String name = scanner.nextLine().trim();
         if (name.isEmpty()) {
-            outputHandler.print("❗ Название не может быть пустым.");
+            outputHandler.printWarning("❗ Название не может быть пустым.");
             return;
         }
 
@@ -69,11 +75,11 @@ public class ProductController implements IProductController {
         try {
             price = Double.parseDouble(scanner.nextLine());
             if (price <= 0) {
-                outputHandler.print("❗ Цена должна быть положительной.");
+                outputHandler.printWarning("❗ Цена должна быть положительной.");
                 return;
             }
         } catch (NumberFormatException e) {
-            outputHandler.print("❗ Неверный формат цены.");
+            outputHandler.printError("❗ Неверный формат цены.");
             return;
         }
 
@@ -82,27 +88,26 @@ public class ProductController implements IProductController {
         try {
             stockQuantity = Integer.parseInt(scanner.nextLine());
             if (stockQuantity < 0) {
-                outputHandler.print("❗ Количество не может быть отрицательным.");
+                outputHandler.printWarning("❗ Количество не может быть отрицательным.");
                 return;
             }
         } catch (NumberFormatException e) {
-            outputHandler.print("❗ Неверный формат количества.");
+            outputHandler.printError("❗ Неверный формат количества.");
             return;
         }
 
         BigDecimal priceBigDecimal = BigDecimal.valueOf(price);
-        Currency currency = Currency.getInstance("USD");
 
         IProduct product = new Product(
                 name,
                 description,
                 priceBigDecimal,
                 stockQuantity,
-                currency
+                CurrencyType.EUR // Пока захардкожено
         );
 
         productService.createProduct(product);
-        outputHandler.print("✅ Продукт добавлен: " + product);
+        outputHandler.printSuccess("✅ Продукт добавлен: " + product);
     }
 
     private void removeProduct() {
@@ -112,11 +117,11 @@ public class ProductController implements IProductController {
         try {
             Long id = Long.parseLong(idInput);
             productService.deleteProduct(id);
-            outputHandler.print("✅ Продукт удалён.");
+            outputHandler.printSuccess("✅ Продукт успешно удалён.");
         } catch (NumberFormatException e) {
-            outputHandler.print("❗ Неверный формат ID.");
+            outputHandler.printError("❗ Неверный формат ID.");
         } catch (ProductNotFoundException e) {
-            outputHandler.print("❌ Ошибка: " + e.getMessage());
+            outputHandler.printError("❌ Ошибка: " + e.getMessage());
         }
     }
 
@@ -124,13 +129,13 @@ public class ProductController implements IProductController {
         try {
             List<IProduct> products = productService.getAllProducts();
             if (products.isEmpty()) {
-                outputHandler.print("🔍 Список продуктов пуст.");
+                outputHandler.printInfo("🔍 Список продуктов пуст.");
             } else {
-                outputHandler.print("📦 Все продукты:");
+                outputHandler.printInfo("📦 Список всех продуктов:");
                 products.forEach(p -> outputHandler.print(p.toString()));
             }
         } catch (Exception e) {
-            outputHandler.print("❌ Ошибка при загрузке данных: " + e.getMessage());
+            outputHandler.printError("❌ Ошибка при загрузке данных: " + e.getMessage());
         }
     }
 
@@ -141,11 +146,11 @@ public class ProductController implements IProductController {
         try {
             Long id = Long.parseLong(idInput);
             IProduct product = productService.getProductById(id);
-            outputHandler.print("🔍 Найден продукт: " + product);
+            outputHandler.printInfo("🔍 Найден продукт: " + product);
         } catch (NumberFormatException e) {
-            outputHandler.print("❗ Неверный формат ID.");
+            outputHandler.printError("❗ Неверный формат ID.");
         } catch (ProductNotFoundException e) {
-            outputHandler.print("❌ Ошибка: " + e.getMessage());
+            outputHandler.printError("❌ Ошибка: " + e.getMessage());
         }
     }
 }

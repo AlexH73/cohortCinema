@@ -2,7 +2,6 @@ package com.cinema.model.product;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.util.Currency;
 import java.util.Objects;
 
 /**
@@ -25,13 +24,14 @@ public class Product implements IProduct{
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Currency currency;
+    private CurrencyType currency;
 
     @Column(nullable = true)
     private int stockQuantity;
 
-    public Product(String name, String description, BigDecimal price, int stockQuantity, Currency currency) {
+    public Product(String name, String description, BigDecimal price, int stockQuantity, CurrencyType currency) {
         validatePrice(price);
         validateStock(stockQuantity);
         this.name = name;
@@ -118,12 +118,12 @@ public class Product implements IProduct{
     }
 
     @Override
-    public Currency getCurrency() {
+    public CurrencyType getCurrency() {
         return currency;
     }
 
     @Override
-    public void setCurrency(Currency currency) {
+    public void setCurrency(CurrencyType currency) {
         this.currency = currency;
     }
 
@@ -137,9 +137,8 @@ public class Product implements IProduct{
         return "Product{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", price=" + price +
+                ", price=" + price + currency.getSymbol() +
                 ", stock=" + stockQuantity +
-                ", currency=" + currency +
                 '}';
     }
 
