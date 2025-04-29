@@ -72,7 +72,27 @@ public class Main {
         System.out.println("ID: " + newUser.getId());
         System.out.println(newUser);
 
-        // === 4. Работа с продуктами ===
+/*        // ==== 4. Работа с заказами ====
+        Order order = new Order(1, customer, OrderStatus.NEW);
+        System.out.println("\n🛒 Создан новый заказ:");
+        System.out.println(order);
+
+        // ==== 5. Работа с билетами ====
+        Ticket ticket = new Ticket(1, hall1, film1, LocalDate.now(), TicketStatus.AVAILABLE);
+        System.out.println("\n🎟️ Создан новый билет:");
+        System.out.println(ticket);
+
+        // ==== 6. Работа с сессиями ====
+        Session session = new Session(1, film1, hall1, LocalDate.now());
+        System.out.println("\n🕒 Создана новая сессия:");
+        System.out.println(session);
+
+        // ==== 7. Генерация отчётов ====
+        IReportGenerator reportGenerator = new TicketAndProductReportGenerator();
+        System.out.println("\n📊 Генерация отчёта:");
+        System.out.println(reportGenerator.generateReport());*/
+
+        // === 8. Работа с продуктами ===
         IProductRepository productRepository = new ProductRepository();
         IProductService productService = new ProductService(productRepository);
 
