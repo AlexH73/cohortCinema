@@ -4,9 +4,7 @@ import com.cinema.model.product.IProduct;
 import com.cinema.model.ticket.ITicket;
 import com.cinema.model.ticket.TicketStatus;
 import com.cinema.model.user.Customer;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,10 +13,13 @@ import java.util.*;
 /**
  * Класс Order представляет заказ, сделанный пользователем (билеты и/или продукты).
  */
+@Entity
+@Table(name = "orders")
 public class Order implements IOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Customer user;
     private List<ITicket> tickets;
     private Map<IProduct, Integer> products;
