@@ -64,4 +64,7 @@ public interface ITicket {
      * @param status Статус для этого билета.
      */
     void setStatus(TicketStatus status);
+
+    // добавлена новая функция!!!
+    double calculateFinalPrice(double basePrice);
 }
