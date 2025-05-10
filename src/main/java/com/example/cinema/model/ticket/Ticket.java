@@ -5,11 +5,9 @@ import com.example.cinema.model.session.Session;
 import com.example.cinema.model.user.Customer;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-/**
- * Класс Ticket представляет билет, купленный на определённый сеанс.
- */
 @Entity
 @Table(name = "ticket")
 public class Ticket implements ITicket {
@@ -30,21 +28,20 @@ public class Ticket implements ITicket {
     @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 
-
     private double price;
 
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
 
-    public Ticket(Session session, Customer user, Seat seat, double price) {
-        validate(session, seat, price);
+    public Ticket(Session session, Customer user, Seat seat, double basePrice) {
+        validate(session, seat, basePrice);
         this.session = session;
         this.user = user;
-        this.price = price;
+        this.seat = seat;
+        this.price = calculateFinalPrice(basePrice);
         this.status = TicketStatus.AVAILABLE;
     }
 
-    // Конструктор без параметров для Hibernate
     public Ticket() {}
 
     private void validate(Session session, Seat seat, double price) {
@@ -53,7 +50,27 @@ public class Ticket implements ITicket {
         }
     }
 
-    // Реализация методов интерфейса ITicket
+    public double calculateFinalPrice(double basePrice) {
+        double finalPrice = basePrice;
+
+        // По времени суток (день/вечер/ночь)
+        int hour = session.getStartTime().getHour();
+        if (hour >= 6 && hour < 16) {
+            finalPrice *= 0.8; // дневной
+        } else if (hour >= 16 && hour < 22) {
+            finalPrice *= 1.0; // вечерний
+        } else {
+            finalPrice *= 1.2; // ночной
+        }
+
+        // Скидка студентам/пенсионерам
+        if (user != null && (user.isStudent() || user.isRetired())) {
+            finalPrice *= 0.8;
+        }
+
+        return finalPrice;
+    }
+
     @Override
     public Session getSession() {
         return session;
@@ -61,9 +78,6 @@ public class Ticket implements ITicket {
 
     @Override
     public void setSession(Session session) {
-        if (session == null) {
-            throw new IllegalArgumentException("Сеанс не может быть null.");
-        }
         this.session = session;
     }
 
@@ -74,9 +88,6 @@ public class Ticket implements ITicket {
 
     @Override
     public void setSeat(Seat seat) {
-        if (seat == null) {
-            throw new IllegalArgumentException("Место не может быть null.");
-        }
         this.seat = seat;
     }
 
@@ -87,9 +98,6 @@ public class Ticket implements ITicket {
 
     @Override
     public void setPrice(double price) {
-        if (price <= 0) {
-            throw new IllegalArgumentException("Цена должна быть > 0.");
-        }
         this.price = price;
     }
 
@@ -114,7 +122,7 @@ public class Ticket implements ITicket {
     @Override
     public String toString() {
         return "Ticket{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", session=" + session +
                 ", seat=" + seat +
                 ", price=" + price +
@@ -127,7 +135,12 @@ public class Ticket implements ITicket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return Double.compare(ticket.price, price) == 0 && id.equals(ticket.id) && session.equals(ticket.session) && user.equals(ticket.user) && seat.equals(ticket.seat) && status == ticket.status;
+        return Double.compare(ticket.price, price) == 0 &&
+                Objects.equals(id, ticket.id) &&
+                Objects.equals(session, ticket.session) &&
+                Objects.equals(user, ticket.user) &&
+                Objects.equals(seat, ticket.seat) &&
+                status == ticket.status;
     }
 
     @Override
