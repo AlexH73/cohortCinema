@@ -76,7 +76,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cinema.Main</mainClass>
+                    <mainClass>com.example.cinema.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
