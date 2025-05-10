@@ -1,15 +1,25 @@
 package com.example.cinema;
 
-import com.example.cinema.controller.product.ConsoleOutputHandler;
+import com.example.cinema.controller.order.IOrderController;
+import com.example.cinema.controller.order.OrderController;
+import com.example.cinema.controller.product.IProductController;
+import com.example.cinema.controller.user.IUserController;
+import com.example.cinema.controller.user.UserController;
+import com.example.cinema.repository.order.IOrderRepository;
+import com.example.cinema.repository.ticket.ITicketRepository;
+import com.example.cinema.repository.user.IUserRepository;
+import com.example.cinema.service.order.IOrderService;
+import com.example.cinema.service.order.OrderServiceImpl;
+import com.example.cinema.service.user.IUserService;
+import com.example.cinema.service.user.UserService;
+import com.example.cinema.service.tikcet.ITicketService;
+import com.example.cinema.util.utils.ConsoleOutputHandler;
 import com.example.cinema.controller.product.ProductController;
 import com.example.cinema.model.film.Film;
 import com.example.cinema.model.film.Genre;
 import com.example.cinema.model.hall.Hall;
 import com.example.cinema.model.hall.HallType;
 import com.example.cinema.model.order.Order;
-import com.example.cinema.model.product.CurrencyType;
-import com.example.cinema.model.product.IProduct;
-import com.example.cinema.model.product.Product;
 import com.example.cinema.model.user.Customer;
 import com.example.cinema.model.user.AbstractUser;
 import com.example.cinema.model.user.Role;
@@ -23,8 +33,8 @@ import com.example.cinema.service.product.ProductService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @SpringBootApplication
@@ -35,11 +45,21 @@ public class Main {
         ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
 
         IProductRepository productRepository = context.getBean(IProductRepository.class);
+        IOrderRepository orderRepository = context.getBean(IOrderRepository.class);
+        ITicketRepository ticketRepository = context.getBean(ITicketRepository.class);
         IProductService productService = new ProductService(productRepository);
         ConsoleOutputHandler outputHandler = new ConsoleOutputHandler();
         ProductController productController = new ProductController(productService, outputHandler);
 
-        // === Работа с залами ===
+        ConsoleOutputHandler console = new ConsoleOutputHandler();
+        //IOrderService orderService = new OrderServiceImpl(orderRepository,ticketRepository,productRepository);
+        //IUserService userService = new UserService();
+
+        //IProductController productController = new ProductController(productService, console);
+       // IOrderController orderController = new OrderController(orderService, console);
+        //IUserController userController = new UserController(userService, console);
+
+/*        // === Работа с залами ===
         IHallService hallService = new HallServiceImpl(new HallRepository());
         hallService.addHall(new Hall(1, 10, 20, HallType.IMAX));
         hallService.addHall(new Hall(2, 8, 15, HallType.STANDARD));
@@ -60,7 +80,7 @@ public class Main {
 
         // === Работа с заказом ===
         Order order = new Order(customer);
-        System.out.println(order);
+        System.out.println(order);*/
 
         // === Работа с продуктами ===
 /*        IProduct popcorn = new Product("PopCorn", "Кукуруза сладкая", new BigDecimal("100.00"), 50, CurrencyType.EUR);
@@ -68,6 +88,15 @@ public class Main {
         productService.getAllProducts().forEach(System.out::println);*/
 
         productController.runProductMenu();
+
+
+
+        //console.printInfo();
+
+        // Пример вызовов:
+       // productController.showAllProducts();
+        //orderController.showAllOrders();
+       // userController.showAllUsers();
 
         System.out.println("✅ Инициализация завершена!");
     }

@@ -1,5 +1,6 @@
 package com.example.cinema.controller.product;
 
+import com.example.cinema.util.utils.ConsoleOutputHandler;
 import com.example.cinema.model.product.CurrencyType;
 import com.example.cinema.model.product.Product;
 import com.example.cinema.model.product.IProduct;

@@ -1,4 +1,4 @@
-package com.example.cinema.controller.product;
+package com.example.cinema.util.utils;
 
 /**
  * Класс ConsoleOutputHandler реализует интерфейс OutputHandler и выводит сообщения в консоль с поддержкой цветов.
