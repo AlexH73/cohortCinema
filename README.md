@@ -26,7 +26,7 @@ Cinema — это консольное приложение на языке Java
 ## 🧱 Структура проекта
 
 <details>
-<summary><code>com.cinema</code> — корневой пакет</summary>
+<summary><code>com.example.cinema</code> — корневой пакет</summary>
 
 - `model` — модели и интерфейсы сущностей:
   - `film`, `hall`, `session`, `ticket`, `order`, `product`, `user`
@@ -65,14 +65,15 @@ cd cohortCinema
 2. Скомпилируйте и запустите:
 ```bash
 javac com/cinema/ui/ConsoleUI.java
-java com.cinema.ui.ConsoleUI
+java com.example.cinema.ui.ConsoleUI
 ```
 
 ---
 
-## 🧑‍💻 Автор
+## 🧑‍💻 Авторы
 
 - **AlexH73** – [GitHub Profile](https://github.com/AlexH73), [Slack Profile](https://ait-tr.slack.com/team/U07V574LHN0)
+- **Juliaaa25** - [GitHub Profile](https://github.com/Juliaaa25), [Slack Profile](https://ait-tr.slack.com/team/U07V2JYFEV9)
 
 ---
 

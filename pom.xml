@@ -9,11 +9,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.example</groupId>
+    <groupId>com.cinema</groupId>
     <artifactId>cohortCinema</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cohortCinema</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Cinema — это консольное приложение на языке Java, предназначенное для управления кинотеатром. Система позволяет работать с пользователями (клиенты, сотрудники, администраторы), управлять залами, сеансами, билетами, заказами и продуктами. Реализована поддержка отчётности.</description>
     <url>https://github.com/AlexH73/cohortCinema</url>
     <licenses>
         <license>
@@ -24,8 +24,8 @@
     <developers>
         <developer>
             <id>AlexH73</id>
-            <name>Alex</name>
-            <email>alex@example.com</email>
+            <name>Alexander</name>
+            <email>ewebotah@gmail.com</email>
         </developer>
     </developers>
     <scm>
@@ -76,7 +76,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cinema.Main</mainClass>
+                    <mainClass>com.example.cinema.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
