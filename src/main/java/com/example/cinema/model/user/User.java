@@ -3,7 +3,7 @@ package com.example.cinema.model.user;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@DiscriminatorValue("users")
 
 /**
  * Класс User представляет пользователя системы (клиент, сотрудник или администратор).
