@@ -122,6 +122,14 @@ public abstract class AbstractUser{
         return isActive;
     }
 
+    public boolean isStudent() {
+        return this.role == Role.STUDENT;
+    }
+
+    public boolean isRetired() {
+        return this.role == Role.PENSIONER;
+    }
+
     public void setActive(boolean active) {
         isActive = active;
     }
