@@ -1,5 +1,6 @@
 package com.example.cinema.model.hall;
 
+import jakarta.persistence.*;
 import java.util.Objects;
 
 /**
@@ -7,9 +8,17 @@ import java.util.Objects;
  * Каждое место определяется рядом и номером в ряду.
  * В будущем при необходимости сюда можно добавить статус (занято/свободно) или привязку к залу.
  */
+@Entity
 public class Seat {
-    private final int row;    // Номер ряда, в котором находится место
-    private final int number; // Номер места в ряду
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Генерация уникального идентификатора
+    private Long id; // Уникальный идентификатор места
+
+    @Column(name = "seat_row", nullable = false)
+    private int row;    // Номер ряда, в котором находится место
+
+    @Column(name = "seat_number", nullable = false)
+    private int number; // Номер места в ряду
 
     /**
      * Конструктор места
@@ -23,6 +32,9 @@ public class Seat {
         this.row = row;
         this.number = number;
     }
+
+    // Пустой конструктор для Hibernate
+    public Seat() {}
 
     // Геттер для номера ряда
     public int getRow() {

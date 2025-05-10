@@ -19,15 +19,15 @@ public class Ticket implements ITicket {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "session_id")
+    @JoinColumn(name = "session_id", nullable = false)
     private Session session;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private Customer user;
 
     @ManyToOne
-    @JoinColumn(name = "seat_id")
+    @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 
 
@@ -43,6 +43,9 @@ public class Ticket implements ITicket {
         this.price = price;
         this.status = TicketStatus.AVAILABLE;
     }
+
+    // Конструктор без параметров для Hibernate
+    public Ticket() {}
 
     private void validate(Session session, Seat seat, double price) {
         if (session == null || seat == null || price <= 0) {

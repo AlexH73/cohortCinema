@@ -5,6 +5,7 @@ import com.example.cinema.model.ticket.ITicket;
 import com.example.cinema.model.ticket.Ticket;
 import com.example.cinema.model.ticket.TicketStatus;
 import com.example.cinema.model.user.Customer;
+import com.example.cinema.model.user.User;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -22,9 +23,13 @@ public class Order implements IOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false) // Связь с таблицей пользователей
+    private User user;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id")
-    private Customer user;
+    private Customer customer;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "order_id")
@@ -45,8 +50,8 @@ public class Order implements IOrder {
     private OrderStatus status;
 
     // === Конструктор ===
-    public Order(Customer user) {
-        this.user = user;
+    public Order(Customer customer) {
+        this.customer = customer;
         this.createdAt = LocalDateTime.now();
         this.status = OrderStatus.NEW;
     }
@@ -126,8 +131,12 @@ public class Order implements IOrder {
         return id;
     }
 
-    public Customer getUser() {
-        return user;
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -138,7 +147,7 @@ public class Order implements IOrder {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", user=" + user +
+                ", user=" + customer +
                 ", tickets=" + tickets +
                 ", products=" + products +
                 ", totalPrice=" + getTotalPrice() +

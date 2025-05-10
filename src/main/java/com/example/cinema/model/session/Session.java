@@ -38,7 +38,7 @@ public class Session implements ISession {
     @Column(name = "seats", nullable = false)
     private int availableSeats;
 
-    @Column(name = "tickets", nullable = false)
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Ticket> tickets = new HashSet<>();
 
     public Session(Film film, Hall cinemaHall, LocalDateTime startTime, double ticketPrice) {

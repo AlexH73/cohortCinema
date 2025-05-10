@@ -22,22 +22,22 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User registerUser(String name, String username, String password) {
-        if (userRepository.findByUsername(username) != null) {
+    public User registerUser(String name, String userLogin, String password) {
+        if (userRepository.findByUserLogin(userLogin) != null) {
             throw new IllegalArgumentException("Пользователь с таким логином уже существует.");
         }
 
         // Хешируем пароль с использованием BCrypt
         String hashedPassword = passwordEncoder.encode(password);
 
-        User user = new User(name, username, hashedPassword); // Сохраняем хешированный пароль
+        User user = new User(name, userLogin, hashedPassword); // Сохраняем хешированный пароль
         userRepository.save(user); // Сохраняем пользователя в базу данных
         return user;
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username); // Используем репозиторий для поиска
+    public User findByUsername(String userLogin) {
+        return userRepository.findByUserLogin(userLogin); // Используем репозиторий для поиска
     }
 
     @Override

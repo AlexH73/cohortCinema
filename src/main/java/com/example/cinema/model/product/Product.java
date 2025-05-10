@@ -41,6 +41,9 @@ public class Product implements IProduct{
         this.currency = currency;
     }
 
+    public Product() {
+    }
+
     // Валидация цены
     private void validatePrice(BigDecimal price) {
         if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {

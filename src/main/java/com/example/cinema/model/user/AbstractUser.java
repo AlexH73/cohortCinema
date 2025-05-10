@@ -19,7 +19,7 @@ public abstract class AbstractUser{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "userLogin", nullable = false, unique = true)
+    @Column(name = "user_login", nullable = false, unique = true)
     private String userLogin;
 
     @Column(name = "password", nullable = false)
@@ -28,10 +28,10 @@ public abstract class AbstractUser{
     @Column(name = "email", nullable = false)
     protected String email;
 
-    @Column(name = "firstName", nullable = true)
+    @Column(name = "first_name", nullable = true)
     protected String firstName;
 
-    @Column(name = "firstName", nullable = true)
+    @Column(name = "last_name", nullable = true)
     protected String lastName;
 
     @Column(name = "role", nullable = false)

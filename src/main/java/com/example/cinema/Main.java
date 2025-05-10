@@ -59,13 +59,13 @@ public class Main {
         System.out.println("Логин: " + newUser.getUserLogin());
 
         // === Работа с заказом ===
-        Order order = new Order((Customer) newUser); // ⚠️ Осторожно, возможен ClassCastException
+        Order order = new Order(customer);
         System.out.println(order);
 
         // === Работа с продуктами ===
-        IProduct popcorn = new Product("PopCorn", "Кукуруза сладкая", new BigDecimal("100.00"), 50, CurrencyType.EUR);
+/*        IProduct popcorn = new Product("PopCorn", "Кукуруза сладкая", new BigDecimal("100.00"), 50, CurrencyType.EUR);
         productService.createProduct(popcorn);
-        productService.getAllProducts().forEach(System.out::println);
+        productService.getAllProducts().forEach(System.out::println);*/
 
         productController.runProductMenu();
 

@@ -17,10 +17,10 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     /**
      *  Находит пользователя в базе данных по его логину.
      *
-     *  @param username Логин пользователя, которого нужно найти.
+     *  @param userLogin Логин пользователя, которого нужно найти.
      *  @return Объект {@link User}, представляющий пользователя, найденного по логину, или {@code null}, если пользователь не найден.
      */
-    User findByUsername(String username);
+    User findByUserLogin(String userLogin);
 
     /**
      * Находит пользователя в базе данных по его ID.

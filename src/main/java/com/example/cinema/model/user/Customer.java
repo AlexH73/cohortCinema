@@ -15,8 +15,11 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("CUSTOMER")
 public class Customer extends AbstractUser implements ICustomer {
-    private final List<Order> orderHistory = new ArrayList<>();
-    private final List<Ticket> bookingHistory = new ArrayList<>();
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orderHistory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> bookingHistory = new ArrayList<>();
 
     public Customer(String username, String password) {
         super();

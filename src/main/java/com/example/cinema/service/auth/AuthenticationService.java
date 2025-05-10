@@ -16,7 +16,7 @@ public class AuthenticationService {
     private PasswordUtils passwordUtils;
 
     public boolean authenticate(String userLogin, String password) {
-        AbstractUser user = userRepository.findByUsername(userLogin);
+        AbstractUser user = userRepository.findByUserLogin(userLogin);
 
         if (user == null) {
             return false;
