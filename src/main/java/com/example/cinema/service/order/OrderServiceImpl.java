@@ -111,11 +111,11 @@ public class OrderServiceImpl implements IOrderService {
             throw new InvalidOrderStateException("Only NEW orders can be cancelled");
         }
 
-/*        // вернуть продукты на склад
-        order.getProducts().forEach(p -> {
-            p.increaseStock(1); // или нужное количество
-            productRepository.save(p);
-        });*/
+        // вернуть продукты на склад
+        order.getProducts().forEach((product, quantity) -> {
+            product.increaseStock(quantity);
+            productRepository.save(product);
+        });
 
         order.setStatus(OrderStatus.CANCELLED);
         return orderRepository.save(order);
