@@ -56,7 +56,7 @@ public class Order implements IOrder {
         this.status = OrderStatus.NEW;
     }
 
-    protected Order() {
+    public Order() {
         // для JPA
     }
 

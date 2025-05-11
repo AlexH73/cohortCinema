@@ -88,7 +88,7 @@ class OrderServiceImplTest {
         Order order = new Order(new Customer("c", "d"));
         when(orderRepository.findById(5L)).thenReturn(Optional.of(order));
 
-        Order result = orderService.getOrderById(5L);
+        Optional<Order> result = orderService.getOrderById(5L);
 
         assertNotNull(result);
         assertEquals(order, result);

@@ -1,7 +1,10 @@
 package com.example.cinema.controller.order;
 
 public interface IOrderController {
-    void createOrder(); // позже можно расширить параметрами
-    void showAllOrders();
-    void showOrdersByCustomer();
+    /**
+     * Запускает консольное меню управления заказами:
+     * просмотр, создание, оплата, отмена и т.д.
+     */
+    void runOrderMenu();
 }
+

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -122,9 +123,9 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Order getOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
+    public Optional<Order> getOrderById(Long orderId) {
+        return Optional.ofNullable(orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId)));
     }
 
     @Override
