@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -111,20 +112,20 @@ public class OrderServiceImpl implements IOrderService {
             throw new InvalidOrderStateException("Only NEW orders can be cancelled");
         }
 
-/*        // вернуть продукты на склад
-        order.getProducts().forEach(p -> {
-            p.increaseStock(1); // или нужное количество
-            productRepository.save(p);
-        });*/
+        // вернуть продукты на склад
+        order.getProducts().forEach((product, quantity) -> {
+            product.increaseStock(quantity);
+            productRepository.save(product);
+        });
 
         order.setStatus(OrderStatus.CANCELLED);
         return orderRepository.save(order);
     }
 
     @Override
-    public Order getOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
+    public Optional<Order> getOrderById(Long orderId) {
+        return Optional.ofNullable(orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId)));
     }
 
     @Override

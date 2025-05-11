@@ -5,6 +5,7 @@ import com.example.cinema.model.user.Customer;
 import com.example.cinema.util.exceptions.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Сервисный слой для управления заказами.
@@ -71,7 +72,7 @@ public interface IOrderService {
      * @return Найденный заказ.
      * @throws OrderNotFoundException если заказ не существует.
      */
-    Order getOrderById(Long orderId);
+    Optional<Order> getOrderById(Long orderId);
 
     /**
      * Получить список всех заказов в системе.
