@@ -1,8 +1,8 @@
-package com.example.cinema.repository.product;
+package com.example.cinema.service.product;
 
 import com.example.cinema.model.product.IProduct;
 import com.example.cinema.model.product.Product;
-import com.example.cinema.service.product.IProductService;
+import com.example.cinema.repository.product.IProductRepository;
 import com.example.cinema.util.exceptions.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
